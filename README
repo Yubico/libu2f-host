@@ -120,6 +120,10 @@ You will also need HIDAPI installed, see:
 https://github.com/signal11/hidapi/
 
   Debian:           apt-get install libhidapi-hidraw0
+  
+Moreover, you will also need:
+
+  Debian:           apt-get install gtk-doc-tools libhidapi-dev gengetopt help2man
 
 This project uses autoconf, automake and libtool to achieve
 portability and ease of use.  If you downloaded a tarball, build it as
