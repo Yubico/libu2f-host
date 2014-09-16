@@ -1,0 +1,7 @@
+Copyright (C) 2013-2014 Yubico AB.  Licensed under GPLv3+.
+
+Klas Lindfors <klas@yubico.com>
+Rewrite for HIDAPI/U2Fv2.
+
+Simon Josefsson <simon@yubico.com>
+Initial framework and WinUSB/U2Fv0.

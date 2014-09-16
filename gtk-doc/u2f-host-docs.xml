@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+<!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<book id="index">
+  <bookinfo>
+    <title>Yubico Universal 2nd Factor C Library</title>
+    <releaseinfo>
+      The latest version of this documentation can be found on-line at
+      <ulink role="online-location" url="https://github.com/Yubico/libu2f-host">
+	https://github.com/Yubico/libu2f-host</ulink>.
+    </releaseinfo>
+  </bookinfo>
+
+  <chapter id="intro">
+    <title>Yubico Universal 2nd Factor C Library</title>
+
+    <para>
+      This is a C library that implements the host-side of the U2F
+      protocol.  More precisely, it provides an API for applications
+      that wishes to talk to a U2F device and perform the U2F Register
+      and U2F Authenticate operations.
+    </para>
+
+    <xi:include href="xml/u2f-host.xml"/>
+    <xi:include href="xml/u2f-host-types.xml"/>
+    <xi:include href="xml/u2f-host-version.xml"/>
+  </chapter>
+</book>

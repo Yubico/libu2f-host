@@ -1,0 +1,12 @@
+/Makefile.am
+/check-version.c
+/check-version.h
+/gl_openssl.h
+/sha256.c
+/sha256.h
+/stdalign.in.h
+/stddef.in.h
+/stdint.in.h
+/string.in.h
+/strverscmp.c
+/sys_types.in.h

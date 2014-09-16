@@ -1,0 +1,8 @@
+Author: Yubico
+Basename: libu2f-host
+Homepage: https://developers.yubico.com/libu2f-host/
+License: GPLv3+
+Name: libu2f-host
+Project: libu2f-host
+Summary: Yubico Universal 2nd Factor (U2F) Host C Library
+Travis: https://travis-ci.org/Yubico/libu2f-host

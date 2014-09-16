@@ -1,0 +1,22 @@
+# Copyright (C) 2013-2014 Yubico AB
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, eithe version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+purpose "Perform U2F host-side operations on the command line. Reads challenge from standard input and writes a response to standard output."
+
+option "origin" o "Origin URL to use." string optional
+option "action" a "Action to take." values="register","authenticate","sendrecv" enum
+option "touch" t "Invert user-precense flag (on by default)" flag off
+option "debug" d "Print debug information to standard error" flag off
+option "command" c "Command for sendrecv action" string optional

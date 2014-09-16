@@ -1,0 +1,173 @@
+Yubico Universal 2nd Factor (U2F) Host C Library
+================================================
+
+Introduction
+------------
+
+This is a C library that implements the host-side of the U2F protocol.
+More precisely, it provides an API for applications that wishes to
+talk to a U2F device and perform the U2F Register and U2F Authenticate
+operations.  For the server-side aspect, see our libu2f-server
+project.
+
+License
+-------
+
+The project is licensed under the GPLv3+ license.  See the file
+COPYING for exact wording.  If you have a desire to use this package
+under another license, please contact us to discuss the reason.  For
+any copyright year range specified as YYYY-ZZZZ in this package note
+that the range specifies every single year in that closed interval.
+
+Usage
+-----
+
+The library usage is documented in the API manual, see gtk-doc/html/
+after you built with ./configure --enable-gtk-doc.
+
+There is a command line utility that is useful for debugging or
+testing.  We describe how you could use it here.
+
+First get a REGISTER challenge JSON blob somehow.  You could use the
+Yubico U2F demo server interactively in a browser (with the U2F
+extension disabled), see <http://demo.yubico.com/u2f>.  Alternatively,
+use the WSAPI.  For example:
+
+$ curl 'demo.yubico.com/wsapi/u2f/enroll?username=jas&password=foo' > foo
+
+For reference, a blob looks like this:
+
+{"challenge": "6l8aRM6f35hwrramrt7sKt7gDkvTamt2rYrMgMYE9ro", "version": "U2F_V2", "appId": "http://demo.yubico.com/app-identity"}
+
+Then invoke the u2fhost command, like this:
+
+$ u2f-host -aregister -o http://demo.yubico.com < foo > bar
+
+Your U2F Device should start to blink, and you should touch it to
+proceed.  For reference, the output blob is:
+
+{ "registrationData": "BQQOtd__bgnv8V6_T-E4914xE-Pb6ji1YMUoP0LDLDCGtzCHPwbkMLlxlo6C6fawnQ7671o85nSbek9v0m3_fK7fQBLviOeAdzHiknazlys7eXtC9DBraClKAhYO-2SuxHnyFS9Jfk2nNrib1dtJJNcfRJrOBGILWIIlXzSt5xV4VBgwggIbMIIBBaADAgECAgRAxBIlMAsGCSqGSIb3DQEBCzAuMSwwKgYDVQQDEyNZdWJpY28gVTJGIFJvb3QgQ0EgU2VyaWFsIDQ1NzIwMDYzMTAgFw0xNDA4MDEwMDAwMDBaGA8yMDUwMDkwNDAwMDAwMFowKjEoMCYGA1UEAwwfWXViaWNvIFUyRiBFRSBTZXJpYWwgMTA4NjU5MTUyNTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABK2iSVV7KGNEdPE-oHGvobNnHVw6ZZ6vB3jNIYB1C4t32OucHzMweHqM5CAMSMDHtfp1vuJYaiQSk7jb6M48WtejEjAQMA4GCisGAQQBgsQKAQEEADALBgkqhkiG9w0BAQsDggEBAVg0BoEHEEp4LJLYPYFACRGS8WZiXkCA8crYLgGnzvfKXwPwyKJlUzYxxv5xoRrl5zjkIUXhZ4mnHZVsnj9EY_VGDuRRzKX7YtxTZpFZn7ej3abjLhckTkkQ_AhUkmP7VuK2AWLgYsS8ejGUqughBsKvh_84uxTAEr5BS-OGg2yi7UIjd8W0nOCc6EN8d_8wCiPOjt2Y_-TKpLLTXKszk4UnWNzRdxBThmBBprJBZbF1VyVRvJm5yRLBpth3G8KMvrt4Nu3Ecoj_Q154IJpWe1Dp1upDFLOG9nWCRQk25Y264k9BDISfqs-wHvUjIo2iDnKl5UVoauTWaT7M6KuEwl4wRAIgU5qU72pCVD-bq68tETIKZ8aw7FRKviPVyFZc5Q8BlC0CICTc7_QuTWZFHwxGIotQO639WIllrPf1QqtvHCyzzKg_", "clientData": "eyAiY2hhbGxlbmdlIjogIjZsOGFSTTZmMzVod3JyYW1ydDdzS3Q3Z0RrdlRhbXQycllyTWdNWUU5cm8iLCAib3JpZ2luIjogImh0dHA6XC9cL2RlbW8ueXViaWNvLmNvbSIsICJ0eXAiOiAibmF2aWdhdG9yLmlkLmZpbmlzaEVucm9sbG1lbnQiIH0=" }
+
+Then finish the U2F registration against the server:
+
+$ curl http://demo.yubico.com/wsapi/u2f/bind -d "username=jas&password=foo&data=`cat bar`"
+
+The output from that web service is JSON with some information.
+
+{"username": "jas", "origin": "http://demo.yubico.com", "attest_cert": "-----BEGIN CERTIFICATE-----\nMIICGzCCAQWgAwIBAgIEQMQSJTALBgkqhkiG9w0BAQswLjEsMCoGA1UEAxMjWXVi\naWNvIFUyRiBSb290IENBIFNlcmlhbCA0NTcyMDA2MzEwIBcNMTQwODAxMDAwMDAw\nWhgPMjA1MDA5MDQwMDAwMDBaMCoxKDAmBgNVBAMMH1l1YmljbyBVMkYgRUUgU2Vy\naWFsIDEwODY1OTE1MjUwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAStoklVeyhj\nRHTxPqBxr6GzZx1cOmWerwd4zSGAdQuLd9jrnB8zMHh6jOQgDEjAx7X6db7iWGok\nEpO42+jOPFrXoxIwEDAOBgorBgEEAYLECgEBBAAwCwYJKoZIhvcNAQELA4IBAQFY\nNAaBBxBKeCyS2D2BQAkRkvFmYl5AgPHK2C4Bp873yl8D8MiiZVM2Mcb+caEa5ec4\n5CFF4WeJpx2VbJ4/RGP1Rg7kUcyl+2LcU2aRWZ+3o92m4y4XJE5JEPwIVJJj+1bi\ntgFi4GLEvHoxlKroIQbCr4f/OLsUwBK+QUvjhoNsou1CI3fFtJzgnOhDfHf/MAoj\nzo7dmP/kyqSy01yrM5OFJ1jc0XcQU4ZgQaayQWWxdVclUbyZuckSwabYdxvCjL67\neDbtxHKI/0NeeCCaVntQ6dbqQxSzhvZ1gkUJNuWNuuJPQQyEn6rPsB71IyKNog5y\npeVFaGrk1mk+zOirhMJe\n-----END CERTIFICATE-----\n"}
+
+To authenticate (aka sign) you should acquire a challenge somehow.
+Our demo server provides them.
+
+$ curl 'demo.yubico.com/wsapi/u2f/sign?username=jas&password=foo' > foo
+
+For reference the challenge is:
+
+{"challenge": "Pa3eucFQrH-5c9CAEdGESJiIW9po_Sozs6EfPeYN3nM", "version": "U2F_V2", "keyHandle": "Eu-I54B3MeKSdrOXKzt5e0L0MGtoKUoCFg77ZK7EefIVL0l-Tac2uJvV20kk1x9Ems4EYgtYgiVfNK3nFXhUGA", "appId": "http://demo.yubico.com/app-identity"}
+
+You invoke the u2f-host command as before, again your U2F device
+should blink up and wait for touch.
+
+$ u2f-host -aauthenticate -o http://demo.yubico.com < foo > bar
+
+For reference the response is:
+
+{ "signatureData": "AQAAAAIwRAIgPIlfE6dsRykM5M_KG88hHjRh2ZdiyMakVUIKG9Q2w9QCIBcQYTOhD-D2McYQ2MK0xvoonqNnA0G_WEGNaHtttX32", "clientData": "eyAiY2hhbGxlbmdlIjogIlBhM2V1Y0ZRckgtNWM5Q0FFZEdFU0ppSVc5cG9fU296czZFZlBlWU4zbk0iLCAib3JpZ2luIjogImh0dHA6XC9cL2RlbW8ueXViaWNvLmNvbSIsICJ0eXAiOiAibmF2aWdhdG9yLmlkLmdldEFzc2VydGlvbiIgfQ==", "challenge": "Eu-I54B3MeKSdrOXKzt5e0L0MGtoKUoCFg77ZK7EefIVL0l-Tac2uJvV20kk1x9Ems4EYgtYgiVfNK3nFXhUGA" }
+
+To use our demo server to verify it, you may use this call:
+
+$ curl http://demo.yubico.com/wsapi/u2f/verify -d "username=jas&password=foo&data=`cat bar`"
+
+On success, the output contains a counter and whether touch was asserted:
+
+{"touch": "\u0001", "counter": 2}
+
+That's it!
+
+Building
+--------
+
+Pkg-config simplify finding other dependencies, see:
+http://www.freedesktop.org/wiki/Software/pkg-config
+
+  Debian:           apt-get install pkg-config
+
+The JSON library is needed, see:
+https://github.com/json-c/json-c/wiki
+
+  Debian:           apt-get install libjson0-dev
+
+You will also need HIDAPI installed, see:
+https://github.com/signal11/hidapi/
+
+  Debian:           apt-get install libhidapi-hidraw0
+
+This project uses autoconf, automake and libtool to achieve
+portability and ease of use.  If you downloaded a tarball, build it as
+follows.
+
+-----------
+  $ ./configure --enable-gtk-doc
+  $ make check && sudo make install
+-----------
+
+Building from Git
+-----------------
+
+You may check out the sources using Git with the following command:
+
+-----------
+  $ git clone git://github.com/Yubico/libu2f-host.git
+-----------
+
+This will create a directory 'libu2f-host'.  Enter the directory:
+
+-----------
+  $ cd libu2f-host
+-----------
+
+Autoconf, automake and libtool must be installed.  Help2man is used to
+generate the manpages.
+
+Generate the build system using:
+
+-----------
+  $ autoreconf --install
+-----------
+
+Then build as usual, see above under "Building".
+
+Portability
+-----------
+
+The main development platform is Debian GNU/Linux and it should be
+well supported.  Windows and Mac OS X are important platforms and we
+support them fully as well.
+
+Building Mac binaries can be done using macosx.mk.  The resulting
+binaries have been tested successfully on Mac OS X 10.7 and 10.9.
+
+-----------
+  $ make -f macosx.mk VERSION=0.0
+-----------
+
+Building Windows binaries can be done using windows.mk.  The resulting
+binaries have been tested successfully on Windows 7 Pro 32-bit.
+
+-----------
+  $ make -f windows.mk VERSION=0.0
+-----------
+
+Namespaces
+----------
+
+Project name: Yubico Universal 2nd Factor (U2F) Host C Library
+Short name: libu2f-host
+Symbol prefix: u2fh_
+Tool: u2f-host
+Pkg-config: u2f-host
+
+Questions?
+----------
+
+Talk to <simon@yubico.com>.
