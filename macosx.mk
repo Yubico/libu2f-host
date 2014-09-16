@@ -48,8 +48,8 @@ doit:
 	make install check && \
 	cp LICENSE-gpl3.txt $(PWD)/tmp$(ARCH)/root/licenses/hidapi.txt && \
 	cd .. && \
-	cp ../$(PACKAGE)-$(VERSION).tar.gz . && \
-	tar xfz $(PACKAGE)-$(VERSION).tar.gz && \
+	cp ../$(PACKAGE)-$(VERSION).tar.xz . && \
+	tar xfJ $(PACKAGE)-$(VERSION).tar.xz && \
 	cd $(PACKAGE)-$(VERSION)/ && \
 	PKG_CONFIG_PATH=$(PWD)/tmp$(ARCH)/root/lib/pkgconfig ./configure --prefix=$(PWD)/tmp$(ARCH)/root CFLAGS=-mmacosx-version-min=10.6 && \
 	make install check && \
