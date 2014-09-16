@@ -52,4 +52,4 @@ my-release:
 	$(YUBICO_WWW_REPO)/publish $(PACKAGE) $(VERSION) $(PACKAGE)-$(VERSION).tar.xz*
 	$(YUBICO_WWW_REPO)/publish $(PACKAGE) $(VERSION) $(PACKAGE)-$(VERSION)-win32.zip
 	$(YUBICO_WWW_REPO)/publish $(PACKAGE) $(VERSION) $(PACKAGE)-$(VERSION)-win64.zip
-	rsync -a $(srcdir)/gtk-doc/html/ $(YUBICO_WWW_REPO)/libykneomgr/gtk-doc/
+	rsync -a $(srcdir)/gtk-doc/html/ $(YUBICO_WWW_REPO)/$(PACKAGE)/gtk-doc/
