@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -e
+set -x
+
+autoreconf -i
+./configure
+make check
+
+if [ "x$ARCH" != "x" ]; then
+    make dist
+    make -f windows.mk ${ARCH}bit VERSION=$version EXTRA=""
+fi

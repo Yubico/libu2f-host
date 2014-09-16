@@ -1,0 +1,18 @@
+language: c
+compiler:
+  - gcc
+  - clang
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get remove -qq -y $REMOVE
+  - sudo apt-get autoremove -qq
+  - sudo apt-get install -qq -y gengetopt help2man $EXTRA
+env:
+  - EXTRA="libjson0-dev libhidapi-hidraw0"
+matrix:
+  include:
+    - compiler: gcc
+      env: EXTRA="wine mingw-w64 mingw-w64-dev" REMOVE=mingw32 ARCH=32
+    - compiler: gcc
+      env: EXTRA="wine mingw-w64 mingw-w64-dev" REMOVE=mingw32 ARCH=64
+script: ./build-aux/travis
