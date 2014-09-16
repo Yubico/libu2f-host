@@ -39,14 +39,17 @@ my-release:
 	rm -f $(srcdir)/ChangeLog
 	make ChangeLog syntax-check distcheck
 	make -f windows.mk VERSION=$(VERSION)
-	gpg --detach-sign $(PACKAGE)-$(VERSION).tar.gz
+	gpg --detach-sign $(PACKAGE)-$(VERSION).tar.xz
 	gpg --detach-sign $(PACKAGE)-$(VERSION)-win32.zip
 	gpg --detach-sign $(PACKAGE)-$(VERSION)-win64.zip
-	gpg --verify $(PACKAGE)-$(VERSION).tar.gz.sig $(PACKAGE)-$(VERSION)-win32.zip $(PACKAGE)-$(VERSION)-win64.zip
+
+	gpg --verify $(PACKAGE)-$(VERSION).tar.xz.sig
+	gpg --verify $(PACKAGE)-$(VERSION)-win32.zip.sig
+	gpg --verify $(PACKAGE)-$(VERSION)-win64.zip.sig
 	cd $(srcdir) && git push
 	cd $(srcdir) && git tag -s -m "$(PACKAGE) $(VERSION)" $(PACKAGE)-$(VERSION)
 	cd $(srcdir) && git push --tags
-	$(YUBICO_WWW_REPO)/publish $(PACKAGE) $(VERSION) $(PACKAGE)-$(VERSION).tar.gz*
+	$(YUBICO_WWW_REPO)/publish $(PACKAGE) $(VERSION) $(PACKAGE)-$(VERSION).tar.xz*
 	$(YUBICO_WWW_REPO)/publish $(PACKAGE) $(VERSION) $(PACKAGE)-$(VERSION)-win32.zip
 	$(YUBICO_WWW_REPO)/publish $(PACKAGE) $(VERSION) $(PACKAGE)-$(VERSION)-win64.zip
 	rsync -a $(srcdir)/gtk-doc/html/ $(YUBICO_WWW_REPO)/libykneomgr/gtk-doc/

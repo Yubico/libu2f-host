@@ -61,8 +61,8 @@ gtk-doc/u2f-host.signals
 gtk-doc/u2f-host.types
 gtk-doc/xml/
 libtool
-libu2f-host-*-win32.zip
-libu2f-host-*-win64.zip
+libu2f-host-*-win32.zip*
+libu2f-host-*-win64.zip*
 libu2f-host-*.tar.xz*
 m4/libtool.m4
 m4/ltoptions.m4
