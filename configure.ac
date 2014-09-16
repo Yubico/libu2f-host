@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-AC_INIT([libu2f-host], [0.0], [yubico-devel@googlegroups.com])
+AC_INIT([libu2f-host], [0.0.0], [yubico-devel@googlegroups.com])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_AUX_DIR([build-aux])
@@ -21,7 +21,7 @@ AC_CONFIG_AUX_DIR([build-aux])
 # http://www.gnu.org/s/libtool/manual/html_node/Updating-version-info.html
 AC_SUBST(LT_CURRENT, 0)  # Interfaces removed:    CURRENT++, AGE=0, REVISION=0
 AC_SUBST(LT_AGE, 0)      # Interfaces added:      CURRENT++, AGE++, REVISION=0
-AC_SUBST(LT_REVISION, 0) # No interfaces changed:                   REVISION++
+AC_SUBST(LT_REVISION, 1) # No interfaces changed:                   REVISION++
 
 AM_INIT_AUTOMAKE([gnits dist-xz no-dist-gzip std-options -Wall])
 AM_SILENT_RULES([yes])
@@ -72,10 +72,15 @@ if test "$gl_gcc_warnings" = yes; then
   gl_WARN_ADD([-fdiagnostics-show-option])
 fi
 
-AC_SUBST(U2FH_VERSION_MAJOR, `echo $PACKAGE_VERSION | sed 's/\(.*\)\..*/\1/g'`)
-AC_SUBST(U2FH_VERSION_MINOR, `echo $PACKAGE_VERSION | sed 's/.*\.\(.*\)/\1/g'`)
-AC_SUBST(U2FH_VERSION_PATCH, 0)
-AC_SUBST(U2FH_VERSION_NUMBER, `printf "0x%02x%02x%02x" $U2FH_VERSION_MAJOR $U2FH_VERSION_MINOR $U2FH_VERSION_PATCH`)
+AC_SUBST([U2FH_VERSION_MAJOR],
+	 `echo $PACKAGE_VERSION | sed 's/\(.*\)\..*\..*/\1/g'`)
+AC_SUBST([U2FH_VERSION_MINOR],
+	 `echo $PACKAGE_VERSION | sed 's/.*\.\(.*\)\..*/\1/g'`)
+AC_SUBST([U2FH_VERSION_PATCH],
+	 `echo $PACKAGE_VERSION | sed 's/.*\..*\.\(.*\)/\1/g'`)
+AC_SUBST([U2FH_VERSION_NUMBER],
+	 `printf "0x%02x%02x%02x" $U2FH_VERSION_MAJOR \
+		 $U2FH_VERSION_MINOR $U2FH_VERSION_PATCH`)
 
 AC_CONFIG_FILES([
   Makefile

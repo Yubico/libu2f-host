@@ -1,5 +1,9 @@
 Copyright (C) 2013-2014 Yubico AB.  Licensed under GPLv3+.
 
+* Version 0.0.0 (unreleased)
+
+** Use semantic versioning.
+
 * Version 0.0 (released 2014-09-16)
 
 ** Initial release.
