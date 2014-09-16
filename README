@@ -31,9 +31,7 @@ Yubico U2F demo server interactively in a browser (with the U2F
 extension disabled), see <http://demo.yubico.com/u2f>.  Alternatively,
 use the WSAPI.  For example:
 
-......
-$ curl 'http://demo.yubico.com/wsapi/u2f/enroll?username=jas&password=foo' > foo
-......
+  $ curl 'http://demo.yubico.com/wsapi/u2f/enroll?username=jas&password=foo' > foo
 
 For reference, a blob looks like this:
 
@@ -137,26 +135,24 @@ Building from Git
 
 You may check out the sources using Git with the following command:
 
-......
   $ git clone git://github.com/Yubico/libu2f-host.git
-......
 
 This will create a directory 'libu2f-host'.  Enter the directory:
 
-......
   $ cd libu2f-host
-......
 
 Autoconf, automake and libtool must be installed.  Help2man is used to
-generate the manpages.
+generate the manpages.  GTK-DOC is used to generated API
+documentation.  Gengetopt is needed for command line parameter
+handling.  HIDAPI developer files are also required.
+
+  Debian:   apt-get install gtk-doc-tools libhidapi-dev gengetopt help2man
 
 Generate the build system using:
 
-......
-  $ autoreconf --install
-......
+  $ make
 
-Then build as usual, see above under "Building".
+See cfg.mk for some settings.
 
 Portability
 -----------
@@ -168,16 +164,12 @@ support them fully as well.
 Building Mac binaries can be done using macosx.mk.  The resulting
 binaries have been tested successfully on Mac OS X 10.7 and 10.9.
 
-......
   $ make -f macosx.mk VERSION=0.0
-......
 
 Building Windows binaries can be done using windows.mk.  The resulting
 binaries have been tested successfully on Windows 7 Pro 32-bit.
 
-......
   $ make -f windows.mk VERSION=0.0
-......
 
 Namespaces
 ----------
