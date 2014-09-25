@@ -1,0 +1,21 @@
+YubiKey NEO Mode Switch
+-----------------------
+
+The YubiKey NEO can be mode-switched from the U2F-only mode using
+libu2f-host by sending some non-standardized commands.
+
+  echo -e '\x06\x00\x00\x00' | u2f-host -d -a sendrecv -c c0
+
+For mode-switching in other modes (OTP, CCID or combo modes), we
+recommend the following libraries and command line tools instead:
+
+  For OTP-modes: YubiKey Personalization  
+  https://developers.yubico.com/yubikey-personalization/
+
+  For CCID-modes: YubiKey NEO CCID Manager C Library
+  https://developers.yubico.com/libykneomgr/
+
+If you prefer a GUI that supports all modes we recommend:
+
+  YubiKey NEO Manager
+  https://developers.yubico.com/yubikey-neo-manager/
