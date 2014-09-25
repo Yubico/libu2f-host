@@ -9,13 +9,11 @@ libu2f-host by sending some non-standardized commands.
 For mode-switching in other modes (OTP, CCID or combo modes), we
 recommend the following libraries and command line tools instead:
 
-  For OTP-modes: YubiKey Personalization  
-  https://developers.yubico.com/yubikey-personalization/
+For OTP-modes: YubiKey Personalization
+https://developers.yubico.com/yubikey-personalization/
 
-  For CCID-modes: YubiKey NEO CCID Manager C Library
-  https://developers.yubico.com/libykneomgr/
+For CCID-modes: YubiKey NEO CCID Manager C Library
+https://developers.yubico.com/libykneomgr/
 
-If you prefer a GUI that supports all modes we recommend:
-
-  YubiKey NEO Manager
-  https://developers.yubico.com/yubikey-neo-manager/
+If you prefer a GUI for all modes we recommend: YubiKey NEO Manager
+https://developers.yubico.com/yubikey-neo-manager/
