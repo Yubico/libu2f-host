@@ -57,7 +57,7 @@ prepare_response2 (const char *encstr, const char *bdstr, const char *input,
 
   json_object_object_add (jo, "signatureData", enc);
   json_object_object_add (jo, "clientData", bd);
-  json_object_object_add (jo, "challenge", key);
+  json_object_object_add (jo, "keyHandle", key);
 
   *response = strdup (json_object_to_json_string (jo));
   if (*response == NULL)
