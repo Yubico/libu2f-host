@@ -21,6 +21,9 @@ DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc
 
 EXTRA_DIST = 70-u2f.rules BLURB cfg.mk macosx.mk windows.mk
 
+udevrulesdir = @udevrulesdir@
+dist_udevrules_DATA = 70-u2f.rules
+
 # Release
 
 ChangeLog:

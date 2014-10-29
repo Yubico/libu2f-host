@@ -82,6 +82,11 @@ AC_SUBST([U2FH_VERSION_NUMBER],
 	 `printf "0x%02x%02x%02x" $U2FH_VERSION_MAJOR \
 		 $U2FH_VERSION_MINOR $U2FH_VERSION_PATCH`)
 
+AC_ARG_WITH([udevrulesdir],
+  AS_HELP_STRING([--with-udevrulesdir=DIR], [Install udev rules into this directory]),
+  [], [])
+AC_SUBST([udevrulesdir], [$with_udevrulesdir])
+
 AC_CONFIG_FILES([
   Makefile
   gl/Makefile
@@ -99,6 +104,7 @@ AC_MSG_NOTICE([summary of build options:
   version:          ${VERSION} shared $LT_CURRENT:$LT_REVISION:$LT_AGE major $U2FH_VERSION_MAJOR minor $U2FH_VERSION_MINOR patch $U2FH_VERSION_PATCH number $U2FH_VERSION_NUMBER
   Host type:        ${host}
   Install prefix:   ${prefix}
+  udev rules:       ${with_udevrulesdir:-N/A}
   Compiler:         ${CC}
   Shared library:   ${enable_shared}
   Static library:   ${enable_static}
