@@ -1,8 +1,14 @@
 Copyright (C) 2013-2014 Yubico AB.  Licensed under GPLv3+.
 
-* Version 0.0.0 (unreleased)
+* Version 0.0.1 (released 2014-10-29)
 
 ** Use semantic versioning.
+
+** Correct json key for keyHandle in signResponse
+
+** Fix the udev rule
+
+** Add option to install udev rule
 
 * Version 0.0 (released 2014-09-16)
 
