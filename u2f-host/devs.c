@@ -25,6 +25,7 @@
 #include <sys/ioctl.h>
 #include <sys/fcntl.h>
 #include <linux/hidraw.h>
+#include <time.h>
 #endif
 
 #ifdef __linux
@@ -176,14 +177,53 @@ close_devices (u2fh_devs * devs)
   devs->num_devices = 0;
 }
 
+static void
+generate_nonce (unsigned char nonce[8])
+{
+  /*
+   * Generate a nonce.  Cryptographic randomness is nice but not
+   * critical.  The nonce is, in theory, only used to disambiguate
+   * simultaneous requests.
+   */
+
+  uint64_t val;
+
+#ifndef _WIN32  /* _WIN32 includes 64-bit windows. */
+  int fd;
+  int tmp;
+  struct timespec t;
+
+  /* Try /dev/urandom. */
+  fd = open("/dev/urandom", O_RDONLY | O_CLOEXEC);
+  if (fd != -1)
+    {
+      tmp = read(fd, nonce, 8);
+      close(fd);
+      if (tmp == sizeof(nonce))
+	return;
+    }
+
+  if (clock_gettime(CLOCK_MONOTONIC, &t) == 0)
+    {
+      val = t.tv_nsec + (t.tv_sec * 1000000000ULL);
+      memcpy(nonce, &val, 8);
+      return;
+    }
+#endif
+
+  val = rand();
+  memcpy(nonce, &val, 8);
+}
+
 static int
 init_device (u2fh_devs * devs, unsigned index)
 {
   unsigned char resp[1024];
-  /* FIXME: use something slightly more random as nonce */
-  unsigned char nonce[] = { 0x8, 0x7, 0x6, 0x5, 0x4, 0x3, 0x2, 0x1 };
+  unsigned char nonce[8];
   size_t resplen = sizeof (resp);
   devs->devs[index].cid = CID_BROADCAST;
+
+  generate_nonce(nonce);
 
   if (u2fh_sendrecv
       (devs, index, U2FHID_INIT, nonce, sizeof (nonce), resp,
