@@ -33,7 +33,7 @@ doit:
 	rm -rf tmp && mkdir tmp && cd tmp && \
 	mkdir -p root/licenses && \
 	cp ../json-c-$(LIBJSONVERSION).tar.gz . || \
-	wget https://s3.amazonaws.com/json-c_releases/releases/json-c-$(LIBJSONVERSION).tar.gz && \
+	curl -O -L https://s3.amazonaws.com/json-c_releases/releases/json-c-$(LIBJSONVERSION).tar.gz && \
 	tar xfz json-c-$(LIBJSONVERSION).tar.gz && \
 	cd json-c-$(LIBJSONVERSION) && \
 	./configure --prefix=$(PWD)/tmp$(ARCH)/root CFLAGS=-mmacosx-version-min=10.6 && \
