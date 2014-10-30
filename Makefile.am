@@ -53,6 +53,6 @@ my-release:
 	cd $(srcdir) && git tag -s -m "$(PACKAGE) $(VERSION)" $(PACKAGE)-$(VERSION)
 	cd $(srcdir) && git push --tags
 	$(YUBICO_WWW_REPO)/publish $(PACKAGE) $(VERSION) $(PACKAGE)-$(VERSION).tar.xz*
-	$(YUBICO_WWW_REPO)/publish $(PACKAGE) $(VERSION) $(PACKAGE)-$(VERSION)-win32.zip
-	$(YUBICO_WWW_REPO)/publish $(PACKAGE) $(VERSION) $(PACKAGE)-$(VERSION)-win64.zip
+	$(YUBICO_WWW_REPO)/publish $(PACKAGE) $(VERSION) $(PACKAGE)-$(VERSION)-win32.zip*
+	$(YUBICO_WWW_REPO)/publish $(PACKAGE) $(VERSION) $(PACKAGE)-$(VERSION)-win64.zip*
 	rsync -a $(srcdir)/gtk-doc/html/ $(YUBICO_WWW_REPO)/$(PACKAGE)/gtk-doc/
