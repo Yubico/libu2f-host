@@ -1,6 +1,8 @@
 Copyright (C) 2013-2014 Yubico AB.  Licensed under GPLv3+.
 
-* Version 0.0.2 (unreleased)
+* Version 0.0.2 (released 2014-11-28)
+
+** Add more devices to udev.
 
 * Version 0.0.1 (released 2014-10-29)
 
