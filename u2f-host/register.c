@@ -136,9 +136,10 @@ u2fh_register (u2fh_devs * devs,
       int i;
       for (i = 0; i < devs->num_devices; i++)
 	{
-          if(!devs->devs[i].is_alive) {
-            continue;
-          }
+	  if (!devs->devs[i].is_alive)
+	    {
+	      continue;
+	    }
 	  len = MAXDATASIZE;
 	  rc = send_apdu (devs, i, U2F_REGISTER, data, sizeof (data),
 			  flags & U2FH_REQUEST_USER_PRESENCE ? 3 : 0, buf,

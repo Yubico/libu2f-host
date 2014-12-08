@@ -165,9 +165,10 @@ u2fh_authenticate (u2fh_devs * devs,
       int i;
       for (i = 0; i < devs->num_devices; i++)
 	{
-          if(!devs->devs[i].is_alive) {
-            continue;
-          }
+	  if (!devs->devs[i].is_alive)
+	    {
+	      continue;
+	    }
 	  len = MAXDATASIZE;
 	  rc = send_apdu (devs, i, U2F_AUTHENTICATE, data,
 			  HOSIZE + CHALLBINLEN + khlen + 1,
