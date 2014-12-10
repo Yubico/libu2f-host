@@ -23,6 +23,7 @@
 #include "sha256.h"
 
 #define RESPHEAD_SIZE 7
+#define HID_TIMEOUT 750
 
 static void
 dumpHex (unsigned char *data, int offs, int len)
@@ -211,7 +212,7 @@ u2fh_sendrecv (u2fh_devs * devs, unsigned index, uint8_t cmd,
     int maxlen = *recvlen;
     int recvddata = 0;
     short datalen;
-    int rc = hid_read (dev->devh, data, len);
+    int rc = hid_read_timeout (dev->devh, data, len, HID_TIMEOUT);
     sequence = 0;
 
     if (debug)
@@ -243,7 +244,7 @@ u2fh_sendrecv (u2fh_devs * devs, unsigned index, uint8_t cmd,
 
     while (datalen > recvddata)
       {
-	rc = hid_read (dev->devh, data, len);
+	rc = hid_read_timeout (dev->devh, data, len, HID_TIMEOUT);
 	if (debug)
 	  {
 	    fprintf (stderr, "USB read rc read %d\n", len);
