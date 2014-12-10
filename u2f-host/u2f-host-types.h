@@ -37,6 +37,7 @@ typedef enum
   U2FH_JSON_ERROR = -3,
   U2FH_BASE64_ERROR = -4,
   U2FH_NO_U2F_DEVICE = -5,
+  U2FH_AUTHENTICATOR_ERROR = -6,
 } u2fh_rc;
 
 /**

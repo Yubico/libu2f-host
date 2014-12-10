@@ -134,6 +134,10 @@ u2fh_authenticate (u2fh_devs * devs,
   size_t kh64len = sizeof (khb64);
   base64_decodestate b64;
   size_t khlen;
+  int skip_devices[devs->num_devices];
+  int skipped = 0;
+
+  memset (skip_devices, 0, sizeof (skip_devices));
 
   rc = get_fixed_json_data (challenge, "challenge", chalb64, &challen);
   if (rc != U2FH_OK)
@@ -165,14 +169,21 @@ u2fh_authenticate (u2fh_devs * devs,
       int i;
       for (i = 0; i < devs->num_devices; i++)
 	{
+	  unsigned char tmp_buf[MAXDATASIZE];
+	  if (skip_devices[i] != 0)
+	    {
+	      continue;
+	    }
 	  if (!devs->devs[i].is_alive)
 	    {
+	      skipped++;
+	      skip_devices[i] = 1;
 	      continue;
 	    }
 	  len = MAXDATASIZE;
 	  rc = send_apdu (devs, i, U2F_AUTHENTICATE, data,
 			  HOSIZE + CHALLBINLEN + khlen + 1,
-			  flags & U2FH_REQUEST_USER_PRESENCE ? 3 : 7, buf,
+			  flags & U2FH_REQUEST_USER_PRESENCE ? 3 : 7, tmp_buf,
 			  &len);
 	  if (rc != U2FH_OK)
 	    {
@@ -180,16 +191,33 @@ u2fh_authenticate (u2fh_devs * devs,
 	    }
 	  else if (len != 2)
 	    {
+	      memcpy (buf, tmp_buf, len);
 	      break;
 	    }
+	  else if (memcmp (tmp_buf, NOTSATISFIED, 2) != 0)
+	    {
+	      skipped++;
+	      skip_devices[i] = 2;
+	      continue;
+	    }
+	  memcpy (buf, tmp_buf, len);
 	}
-
-      sleep (1);
+      if (len == 2 && memcmp (buf, NOTSATISFIED, 2) == 0)
+	{
+	  sleep (1);
+	}
     }
   while ((flags & U2FH_REQUEST_USER_PRESENCE)
 	 && len == 2 && memcmp (buf, NOTSATISFIED, 2) == 0);
 
-  prepare_response (buf, len - 2, bd, challenge, response);
+  if (len == 2 && memcmp (buf, NOTSATISFIED, 2) != 0)
+    {
+      return U2FH_AUTHENTICATOR_ERROR;
+    }
+  if (len != 2)
+    {
+      prepare_response (buf, len - 2, bd, challenge, response);
+    }
 
   return U2FH_OK;
 }

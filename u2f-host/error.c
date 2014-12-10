@@ -33,7 +33,8 @@ static const err_t errors[] = {
   ERR (U2FH_TRANSPORT_ERROR, "error in transport layer"),
   ERR (U2FH_JSON_ERROR, "error in JSON handling"),
   ERR (U2FH_BASE64_ERROR, "base64 error"),
-  ERR (U2FH_NO_U2F_DEVICE, "cannot find U2F device")
+  ERR (U2FH_NO_U2F_DEVICE, "cannot find U2F device"),
+  ERR (U2FH_AUTHENTICATOR_ERROR, "authenticator error"),
 };
 
 /**
