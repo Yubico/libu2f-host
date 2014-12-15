@@ -3,9 +3,18 @@
 set -e
 set -x
 
-autoreconf -i
-./configure
-make check
+HERE=$PWD
+cd /tmp
+
+export PKG_CONFIG_PATH=/tmp/hidapi/pc:$PKG_CONFIG_PATH
+git clone git://github.com/signal11/hidapi.git
+cd hidapi
+./bootstrap && ./configure && make && sudo make install
+sudo ldconfig
+
+cd $HERE
+
+autoreconf -i && ./configure && make check
 
 if [ "x$ARCH" != "x" ]; then
     make dist

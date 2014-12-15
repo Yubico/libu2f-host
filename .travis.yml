@@ -8,7 +8,7 @@ before_install:
   - sudo apt-get autoremove -qq
   - sudo apt-get install -qq -y gengetopt help2man $EXTRA
 env:
-  - EXTRA="libjson0-dev libhidapi-hidraw0"
+  - EXTRA="libjson0-dev"
 matrix:
   include:
     - compiler: gcc
