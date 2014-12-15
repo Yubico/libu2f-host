@@ -37,6 +37,16 @@ AM_MISSING_PROG(HELP2MAN, help2man, $missing_dir)
 PKG_CHECK_MODULES([LIBJSON], [json-c], [], [
   PKG_CHECK_MODULES([LIBJSON], [json])])
 
+# Check for json_object_to_json_string_ext, needed for pretty printing.
+am_save_CFLAGS="$CFLAGS"
+am_save_LIBS="$LIBS"
+CFLAGS="$CFLAGS $LIBJESON_CFLAGS"
+LIBS="$LIBS $LIBJSON_LIBS"
+AC_CHECK_FUNCS([json_object_to_json_string_ext])
+AC_CHECK_FUNCS([json_object_object_get_ex])
+CFLAGS=$am_save_CFLAGS
+LIBS=$am_save_LIBS
+
 PKG_CHECK_MODULES([HIDAPI], [hidapi], [], [
   PKG_CHECK_MODULES([HIDAPI], [hidapi-hidraw])])
 

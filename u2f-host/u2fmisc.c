@@ -25,6 +25,13 @@
 #define RESPHEAD_SIZE 7
 #define HID_TIMEOUT 750
 
+#ifdef HAVE_JSON_OBJECT_OBJECT_GET_EX
+#define u2fh_json_object_object_get(obj, key, value) json_object_object_get_ex(obj, key, &value)
+#else
+typedef int json_bool;
+#define u2fh_json_object_object_get(obj, key, value) (value = json_object_object_get(obj, key)) == NULL ? (json_bool)FALSE : (json_bool)TRUE
+#endif
+
 static void
 dumpHex (unsigned char *data, int offs, int len)
 {
@@ -105,7 +112,7 @@ prepare_origin (const char *jsonstr, unsigned char *p)
   if (debug)
     fprintf (stderr, "JSON: %s\n", json_object_to_json_string (jo));
 
-  if (!json_object_object_get_ex (jo, "appId", &k))
+  if (u2fh_json_object_object_get (jo, "appId", k) == FALSE)
     return U2FH_JSON_ERROR;
 
   app_id = json_object_get_string (k);
@@ -335,7 +342,7 @@ get_fixed_json_data (const char *jsonstr, const char *key, char *p,
   if (debug)
     fprintf (stderr, "JSON: %s\n", json_object_to_json_string (jo));
 
-  if (!json_object_object_get_ex (jo, key, &k))
+  if (u2fh_json_object_object_get (jo, key, k) == FALSE)
     return U2FH_JSON_ERROR;
 
   urlb64 = json_object_get_string (k);
