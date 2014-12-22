@@ -32,6 +32,11 @@ struct u2fdevice
   char *device_string;
   char *device_path;
   int is_alive;
+  uint8_t versionInterface;             // Interface version
+  uint8_t versionMajor;                 // Major version number
+  uint8_t versionMinor;                 // Minor version number
+  uint8_t versionBuild;                 // Build version number
+  uint8_t capFlags;                     // Capabilities flags  
 };
 
 struct u2fh_devs

@@ -192,6 +192,10 @@ init_device (u2fh_devs * devs, unsigned index)
       U2FHID_INIT_RESP initresp;
       memcpy (&initresp, resp, resplen);
       devs->devs[index].cid = initresp.cid;
+      devs->devs[index].versionInterface = initresp.versionInterface;
+      devs->devs[index].versionMajor = initresp.versionMajor;
+      devs->devs[index].versionMinor = initresp.versionMinor;
+      devs->devs[index].capFlags = initresp.capFlags;
     }
   else
     {
@@ -343,6 +347,12 @@ u2fh_devs_discover (u2fh_devs * devs, unsigned *max_index)
 			{
 			  fprintf (stderr, "device %s discovered as '%s'\n",
 				   dev->device_path, dev->device_string);
+			  fprintf (stderr, "  version (Interface, Major, Minor, Build): %d, %d, %d, %d  capFlags: %d\n",
+				   dev->versionInterface, 
+				   dev->versionMajor, 
+				   dev->versionMinor, 
+				   dev->versionBuild, 
+				   dev->capFlags);
 			}
 		    }
 		  res = U2FH_OK;
