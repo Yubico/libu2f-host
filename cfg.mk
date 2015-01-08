@@ -34,6 +34,7 @@ update-copyright-env = UPDATE_COPYRIGHT_HOLDER="Yubico AB" \
 
 local-checks-to-skip = sc_bindtextdomain sc_immutable_NEWS sc_program_name
 local-checks-to-skip += sc_prohibit_strcmp sc_unmarked_diagnostics
+local-checks-to-skip += sc_GPL_version
 
 exclude_file_name_regexp--sc_m4_quote_check = ^gl/m4/
 exclude_file_name_regexp--sc_makefile_at_at_check = ^maint.mk|gl/Makefile.am

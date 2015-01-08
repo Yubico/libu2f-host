@@ -36,7 +36,7 @@ struct u2fdevice
   uint8_t versionMajor;                 // Major version number
   uint8_t versionMinor;                 // Minor version number
   uint8_t versionBuild;                 // Build version number
-  uint8_t capFlags;                     // Capabilities flags  
+  uint8_t capFlags;                     // Capabilities flags
 };
 
 struct u2fh_devs
