@@ -30,6 +30,7 @@ configure
 gl/arg-nonnull.h
 gl/c++defs.h
 gl/libgnu.la
+gl/stddef.h
 gl/string.h
 gl/sys/
 gl/warn-on-use.h
