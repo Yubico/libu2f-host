@@ -1,18 +1,18 @@
 /* A substitute for ISO C11 <stdalign.h>.
 
-   Copyright 2011-2014 Free Software Foundation, Inc.
+   Copyright 2011-2015 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 3, or (at your option)
+   it under the terms of the GNU Lesser General Public License as published by
+   the Free Software Foundation; either version 2.1, or (at your option)
    any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   GNU Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
+   You should have received a copy of the GNU Lesser General Public License
    along with this program; if not, see <http://www.gnu.org/licenses/>.  */
 
 /* Written by Paul Eggert and Bruno Haible.  */
@@ -95,7 +95,10 @@
 #if !defined __STDC_VERSION__ || __STDC_VERSION__ < 201112
 # if defined __cplusplus && 201103 <= __cplusplus
 #  define _Alignas(a) alignas (a)
-# elif (__GNUC__ || __HP_cc || __HP_aCC || __IBMC__ || __IBMCPP__ \
+# elif ((defined __APPLE__ && defined __MACH__                  \
+         ? 4 < __GNUC__ + (1 <= __GNUC_MINOR__)                 \
+         : __GNUC__)                                            \
+        || __HP_cc || __HP_aCC || __IBMC__ || __IBMCPP__        \
         || __ICC || 0x5110 <= __SUNPRO_C)
 #  define _Alignas(a) __attribute__ ((__aligned__ (a)))
 # elif 1300 <= _MSC_VER
