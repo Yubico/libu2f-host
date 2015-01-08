@@ -1,6 +1,6 @@
 Copyright (C) 2013-2015 Yubico AB.  Licensed under GPLv3+.
 
-* Version 0.0.3 (unreleased)
+* Version 0.0.3 (released 2015-01-08)
  ** Change license to LGPLv2+ for the library.
  ** Some improvements to internal communication code.
  ** Some debug mode improvements, from Bram Vandoren.
