@@ -1,6 +1,9 @@
-Copyright (C) 2013-2014 Yubico AB.  Licensed under GPLv3+.
+Copyright (C) 2013-2015 Yubico AB.  Licensed under GPLv3+.
 
 * Version 0.0.3 (unreleased)
+ ** Change license to LGPLv2+ for the library.
+ ** Some improvements to internal communication code.
+ ** Some debug mode improvements, from Bram Vandoren.
 
 * Version 0.0.2 (released 2014-11-28)
  ** Add more devices to udev.
