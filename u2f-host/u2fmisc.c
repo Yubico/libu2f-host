@@ -23,7 +23,8 @@
 #include "sha256.h"
 
 #define RESPHEAD_SIZE 7
-#define HID_TIMEOUT 750
+#define HID_TIMEOUT 2
+#define HID_MAX_TIMEOUT 4096
 
 #ifdef HAVE_JSON_OBJECT_OBJECT_GET_EX
 #define u2fh_json_object_object_get(obj, key, value) json_object_object_get_ex(obj, key, &value)
@@ -219,7 +220,21 @@ u2fh_sendrecv (u2fh_devs * devs, unsigned index, uint8_t cmd,
     int maxlen = *recvlen;
     int recvddata = 0;
     short datalen;
-    int rc = hid_read_timeout (dev->devh, data, len, HID_TIMEOUT);
+    int timeout = HID_TIMEOUT;
+    int rc = 0;
+
+    while(rc == 0) {
+      if (debug)
+	{
+	  fprintf(stderr, "now trying with timeout %d\n", timeout);
+	}
+      rc = hid_read_timeout (dev->devh, data, len, timeout);
+      timeout *= 2;
+      if(timeout > HID_MAX_TIMEOUT) {
+	rc = -2;
+	break;
+      }
+    }
     sequence = 0;
 
     if (debug)
@@ -251,7 +266,20 @@ u2fh_sendrecv (u2fh_devs * devs, unsigned index, uint8_t cmd,
 
     while (datalen > recvddata)
       {
-	rc = hid_read_timeout (dev->devh, data, len, HID_TIMEOUT);
+	timeout = HID_TIMEOUT;
+	rc = 0;
+	while(rc == 0) {
+	  if (debug)
+	    {
+	      fprintf(stderr, "now trying with timeout %d\n", timeout);
+	    }
+	  rc = hid_read_timeout (dev->devh, data, len, timeout);
+	  timeout *= 2;
+	  if(timeout > HID_MAX_TIMEOUT) {
+	    rc = -2;
+	    break;
+	  }
+	}
 	if (debug)
 	  {
 	    fprintf (stderr, "USB read rc read %d\n", len);
@@ -269,6 +297,7 @@ u2fh_sendrecv (u2fh_devs * devs, unsigned index, uint8_t cmd,
 	memcpy (&frame, data, HID_RPT_SIZE);
 	if (frame.cid != dev->cid || frame.cont.seq != sequence++)
 	  {
+	    fprintf(stderr, "bar: %d %d %d %d\n", frame.cid, dev->cid, frame.cont.seq, sequence);
 	    return U2FH_TRANSPORT_ERROR;
 	  }
 	memcpy (recv + recvddata, frame.cont.data, sizeof (frame.cont.data));
