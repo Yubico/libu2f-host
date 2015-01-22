@@ -1,20 +1,27 @@
-Copyright (C) 2013-2015 Yubico AB.  Licensed under GPLv3+.
+Copyright (C) 2013-2015 Yubico AB.  Licensed under GPLv3+     . -*- outline -*-
 
 * Version 0.0.4 (unreleased)
 
+** Add an exponential growing timeout for slow devices (PlugUp).
+
 * Version 0.0.3 (released 2015-01-08)
- ** Change license to LGPLv2+ for the library.
- ** Some improvements to internal communication code.
- ** Some debug mode improvements, from Bram Vandoren.
+
+** Change license to LGPLv2+ for the library.
+
+** Some improvements to internal communication code.
+** Some debug mode improvements, from Bram Vandoren.
 
 * Version 0.0.2 (released 2014-11-28)
- ** Add more devices to udev.
+
+** Add more devices to udev.
 
 * Version 0.0.1 (released 2014-10-29)
- ** Use semantic versioning.
- ** Correct json key for keyHandle in signResponse
- ** Fix the udev rule
- ** Add option to install udev rule
+
+** Use semantic versioning.
+** Correct json key for keyHandle in signResponse
+** Fix the udev rule
+** Add option to install udev rule
 
 * Version 0.0 (released 2014-09-16)
- ** Initial release.
+
+** Initial release.
