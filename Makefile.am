@@ -47,7 +47,6 @@ my-release:
 	gpg --detach-sign $(PACKAGE)-$(VERSION).tar.xz
 	gpg --detach-sign $(PACKAGE)-$(VERSION)-win32.zip
 	gpg --detach-sign $(PACKAGE)-$(VERSION)-win64.zip
-
 	gpg --verify $(PACKAGE)-$(VERSION).tar.xz.sig
 	gpg --verify $(PACKAGE)-$(VERSION)-win32.zip.sig
 	gpg --verify $(PACKAGE)-$(VERSION)-win64.zip.sig
