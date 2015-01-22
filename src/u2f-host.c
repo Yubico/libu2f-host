@@ -58,21 +58,24 @@ main (int argc, char *argv[])
   rc = u2fh_global_init (args_info.debug_flag ? U2FH_DEBUG : 0);
   if (rc != U2FH_OK)
     {
-      fprintf (stderr, "error: u2fh_global_init (%d): %s\n", rc, u2fh_strerror (rc));
+      fprintf (stderr, "error: u2fh_global_init (%d): %s\n", rc,
+	       u2fh_strerror (rc));
       exit (EXIT_FAILURE);
     }
 
   rc = u2fh_devs_init (&devs);
   if (rc != U2FH_OK)
     {
-      fprintf (stderr, "error: u2fh_devs_init (%d): %s\n", rc, u2fh_strerror (rc));
+      fprintf (stderr, "error: u2fh_devs_init (%d): %s\n", rc,
+	       u2fh_strerror (rc));
       goto done;
     }
 
   rc = u2fh_devs_discover (devs, NULL);
   if (rc != U2FH_OK)
     {
-      fprintf (stderr, "error: u2fh_devs_discover (%d): %s\n", rc, u2fh_strerror (rc));
+      fprintf (stderr, "error: u2fh_devs_discover (%d): %s\n", rc,
+	       u2fh_strerror (rc));
       goto done;
     }
 

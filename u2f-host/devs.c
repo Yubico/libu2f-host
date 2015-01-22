@@ -354,8 +354,7 @@ u2fh_devs_discover (u2fh_devs * devs, unsigned *max_index)
 				   dev->versionInterface,
 				   dev->versionMajor,
 				   dev->versionMinor,
-				   dev->versionBuild,
-				   dev->capFlags);
+				   dev->versionBuild, dev->capFlags);
 			}
 		    }
 		  res = U2FH_OK;
