@@ -31,20 +31,20 @@ testing.  We describe how you could use it here.
 
 === Register
 First get a _register_ challenge JSON blob somehow.  You could use the
-http://demo.yubico.com/u2f[Yubico U2F demo server] interactively in a browser (with the U2F
+https://demo.yubico.com/u2f[Yubico U2F demo server] interactively in a browser (with the U2F
 extension disabled).  Alternatively,
 use the WSAPI.  For example:
 
- $ curl 'http://demo.yubico.com/wsapi/u2f/enroll?username=jas&password=foo' > foo
+ $ curl 'https://demo.yubico.com/wsapi/u2f/enroll?username=jas&password=foo' > foo
 
 For reference, a blob looks like this:
 
 [source, json]
-{"challenge": "6l8aRM6f35hwrramrt7sKt7gDkvTamt2rYrMgMYE9ro", "version": "U2F_V2", "appId": "http://demo.yubico.com/app-identity"}
+{"challenge": "6l8aRM6f35hwrramrt7sKt7gDkvTamt2rYrMgMYE9ro", "version": "U2F_V2", "appId": "https://demo.yubico.com/app-identity"}
 
 Then invoke the u2fhost command, like this:
 
- $ u2f-host -aregister -o http://demo.yubico.com < foo > bar
+ $ u2f-host -aregister -o https://demo.yubico.com < foo > bar
 
 Your U2F device should start to blink, and you should touch it to
 proceed.  For reference, the output blob is:
@@ -57,33 +57,33 @@ proceed.  For reference, the output blob is:
 Then finish the U2F registration against the server:
 
 ......
-$ curl http://demo.yubico.com/wsapi/u2f/bind -d "username=jas&password=foo&data=`cat bar`"
+$ curl https://demo.yubico.com/wsapi/u2f/bind -d "username=jas&password=foo&data=`cat bar`"
 ......
 
 The output from that web service is JSON with some information.
 
 [source, json]
 ----
-{"username": "jas", "origin": "http://demo.yubico.com", "attest_cert": "-----BEGIN CERTIFICATE-----\nMIICGzCCAQWgAwIBAgIEQMQSJTALBgkqhkiG9w0BAQswLjEsMCoGA1UEAxMjWXVi\naWNvIFUyRiBSb290IENBIFNlcmlhbCA0NTcyMDA2MzEwIBcNMTQwODAxMDAwMDAw\nWhgPMjA1MDA5MDQwMDAwMDBaMCoxKDAmBgNVBAMMH1l1YmljbyBVMkYgRUUgU2Vy\naWFsIDEwODY1OTE1MjUwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAStoklVeyhj\nRHTxPqBxr6GzZx1cOmWerwd4zSGAdQuLd9jrnB8zMHh6jOQgDEjAx7X6db7iWGok\nEpO42+jOPFrXoxIwEDAOBgorBgEEAYLECgEBBAAwCwYJKoZIhvcNAQELA4IBAQFY\nNAaBBxBKeCyS2D2BQAkRkvFmYl5AgPHK2C4Bp873yl8D8MiiZVM2Mcb+caEa5ec4\n5CFF4WeJpx2VbJ4/RGP1Rg7kUcyl+2LcU2aRWZ+3o92m4y4XJE5JEPwIVJJj+1bi\ntgFi4GLEvHoxlKroIQbCr4f/OLsUwBK+QUvjhoNsou1CI3fFtJzgnOhDfHf/MAoj\nzo7dmP/kyqSy01yrM5OFJ1jc0XcQU4ZgQaayQWWxdVclUbyZuckSwabYdxvCjL67\neDbtxHKI/0NeeCCaVntQ6dbqQxSzhvZ1gkUJNuWNuuJPQQyEn6rPsB71IyKNog5y\npeVFaGrk1mk+zOirhMJe\n-----END CERTIFICATE-----\n"}
+{"username": "jas", "origin": "https://demo.yubico.com", "attest_cert": "-----BEGIN CERTIFICATE-----\nMIICGzCCAQWgAwIBAgIEQMQSJTALBgkqhkiG9w0BAQswLjEsMCoGA1UEAxMjWXVi\naWNvIFUyRiBSb290IENBIFNlcmlhbCA0NTcyMDA2MzEwIBcNMTQwODAxMDAwMDAw\nWhgPMjA1MDA5MDQwMDAwMDBaMCoxKDAmBgNVBAMMH1l1YmljbyBVMkYgRUUgU2Vy\naWFsIDEwODY1OTE1MjUwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAStoklVeyhj\nRHTxPqBxr6GzZx1cOmWerwd4zSGAdQuLd9jrnB8zMHh6jOQgDEjAx7X6db7iWGok\nEpO42+jOPFrXoxIwEDAOBgorBgEEAYLECgEBBAAwCwYJKoZIhvcNAQELA4IBAQFY\nNAaBBxBKeCyS2D2BQAkRkvFmYl5AgPHK2C4Bp873yl8D8MiiZVM2Mcb+caEa5ec4\n5CFF4WeJpx2VbJ4/RGP1Rg7kUcyl+2LcU2aRWZ+3o92m4y4XJE5JEPwIVJJj+1bi\ntgFi4GLEvHoxlKroIQbCr4f/OLsUwBK+QUvjhoNsou1CI3fFtJzgnOhDfHf/MAoj\nzo7dmP/kyqSy01yrM5OFJ1jc0XcQU4ZgQaayQWWxdVclUbyZuckSwabYdxvCjL67\neDbtxHKI/0NeeCCaVntQ6dbqQxSzhvZ1gkUJNuWNuuJPQQyEn6rPsB71IyKNog5y\npeVFaGrk1mk+zOirhMJe\n-----END CERTIFICATE-----\n"}
 ----
 
 === Authenticate
 To authenticate (aka sign) you should acquire a challenge somehow.
 Our demo server provides them.
 
- $ curl 'http://demo.yubico.com/wsapi/u2f/sign?username=jas&password=foo' > foo
+ $ curl 'https://demo.yubico.com/wsapi/u2f/sign?username=jas&password=foo' > foo
 
 For reference the challenge is:
 
 [source, json]
 ----
-{"challenge": "Pa3eucFQrH-5c9CAEdGESJiIW9po_Sozs6EfPeYN3nM", "version": "U2F_V2", "keyHandle": "Eu-I54B3MeKSdrOXKzt5e0L0MGtoKUoCFg77ZK7EefIVL0l-Tac2uJvV20kk1x9Ems4EYgtYgiVfNK3nFXhUGA", "appId": "http://demo.yubico.com/app-identity"}
+{"challenge": "Pa3eucFQrH-5c9CAEdGESJiIW9po_Sozs6EfPeYN3nM", "version": "U2F_V2", "keyHandle": "Eu-I54B3MeKSdrOXKzt5e0L0MGtoKUoCFg77ZK7EefIVL0l-Tac2uJvV20kk1x9Ems4EYgtYgiVfNK3nFXhUGA", "appId": "https://demo.yubico.com/app-identity"}
 ----
 
 You invoke the u2f-host command as before, again your U2F device
 should blink up and wait for touch.
 
- $ u2f-host -aauthenticate -o http://demo.yubico.com < foo > bar
+ $ u2f-host -aauthenticate -o https://demo.yubico.com < foo > bar
 
 For reference the response is:
 
@@ -94,7 +94,7 @@ For reference the response is:
 
 To use our demo server to verify it, you may use this call:
 
- $ curl http://demo.yubico.com/wsapi/u2f/verify -d "username=jas&password=foo&data=`cat bar`"
+ $ curl https://demo.yubico.com/wsapi/u2f/verify -d "username=jas&password=foo&data=`cat bar`"
 
 On success, the output contains a counter and whether touch was asserted:
 
