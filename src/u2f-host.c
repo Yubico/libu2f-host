@@ -88,10 +88,11 @@ main (int argc, char *argv[])
 	  fprintf (stderr, "error: origin URL empty, use -o to specify it\n");
 	  exit (EXIT_FAILURE);
 	}
-      else if (strncmp ("http://", args_info.origin_arg, 7) != 0
+      else if (strncmp ("pam://", args_info.origin_arg, 6) != 0
+	       && strncmp ("http://", args_info.origin_arg, 7) != 0
 	       && strncmp ("https://", args_info.origin_arg, 8) != 0)
 	{
-	  fprintf (stderr, "error: origin must be http or https\n");
+	  fprintf (stderr, "error: origin must be pam, http or https\n");
 	  exit (EXIT_FAILURE);
 	}
 
