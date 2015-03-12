@@ -97,6 +97,12 @@ AC_ARG_WITH([udevrulesdir],
   [], [])
 AC_SUBST([udevrulesdir], [$with_udevrulesdir])
 
+PKG_CHECK_MODULES([UDEV], [udev >= 188],
+                  udevrulesfile=70-u2f.rules,
+                  udevrulesfile=70-u2f-old.rules,
+                  )
+AC_SUBST([udevrulesfile], [$udevrulesfile])
+
 AC_CONFIG_FILES([
   Makefile
   gl/Makefile
@@ -115,6 +121,7 @@ AC_MSG_NOTICE([summary of build options:
   Host type:        ${host}
   Install prefix:   ${prefix}
   udev rules:       ${with_udevrulesdir:-N/A}
+  udev rulefile:    ${udevrulesfile}
   Compiler:         ${CC}
   Shared library:   ${enable_shared}
   Static library:   ${enable_static}
