@@ -99,7 +99,7 @@ AC_SUBST([udevrulesdir], [$with_udevrulesdir])
 
 PKG_CHECK_MODULES([UDEV], [udev >= 188],
                   udevrulesfile=70-u2f.rules,
-                  udevrulesfile=70-u2f-old.rules,
+                  udevrulesfile=70-old-u2f.rules,
                   )
 AC_SUBST([udevrulesfile], [$udevrulesfile])
 
