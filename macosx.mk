@@ -17,9 +17,9 @@ LIBJSONVERSION=0.11
 HIDAPIHASH=0cbc3a409bcb45cefb3edbf144d64ddd4e0821ce
 PACKAGE=libu2f-host
 
-all: usage doit
+all: usage clean prepare json-c hidapi doit
 
-.PHONY: usage
+.PHONY: usage clean prepare json-c hidapi
 usage:
 	@if test -z "$(VERSION)"; then \
 		echo "Try this instead:"; \
@@ -29,25 +29,34 @@ usage:
 		exit 1; \
 	fi
 
-doit:
-	rm -rf tmp && mkdir tmp && cd tmp && \
-	mkdir -p root/licenses && \
+clean:
+	rm -rf tmp 
+
+prepare:
+	mkdir -p tmp/root/licenses
+
+json-c:
+	cd tmp && \
 	cp ../json-c-$(LIBJSONVERSION).tar.gz . || \
 	curl -O -L https://s3.amazonaws.com/json-c_releases/releases/json-c-$(LIBJSONVERSION).tar.gz && \
 	tar xfz json-c-$(LIBJSONVERSION).tar.gz && \
 	cd json-c-$(LIBJSONVERSION) && \
 	./configure --prefix=$(PWD)/tmp$(ARCH)/root CFLAGS=-mmacosx-version-min=10.6 && \
 	make install check && \
-	cp COPYING $(PWD)/tmp$(ARCH)/root/licenses/json-c.txt && \
-	cd .. && \
+	cp COPYING $(PWD)/tmp$(ARCH)/root/licenses/json-c.txt
+
+hidapi:
+	cd tmp && \
 	git clone https://github.com/signal11/hidapi.git && \
 	cd hidapi && \
 	git checkout $(HIDAPIHASH) && \
 	./bootstrap && \
 	./configure --prefix=$(PWD)/tmp$(ARCH)/root CFLAGS=-mmacosx-version-min=10.6 && \
 	make install check && \
-	cp LICENSE-gpl3.txt $(PWD)/tmp$(ARCH)/root/licenses/hidapi.txt && \
-	cd .. && \
+	cp LICENSE-gpl3.txt $(PWD)/tmp$(ARCH)/root/licenses/hidapi.txt
+
+doit:
+	cd tmp && \
 	cp ../$(PACKAGE)-$(VERSION).tar.xz . && \
 	tar xfJ $(PACKAGE)-$(VERSION).tar.xz && \
 	cd $(PACKAGE)-$(VERSION)/ && \
