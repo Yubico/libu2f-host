@@ -51,7 +51,7 @@ doit:
 	cp ../$(PACKAGE)-$(VERSION).tar.xz . && \
 	tar xfa $(PACKAGE)-$(VERSION).tar.xz && \
 	cd $(PACKAGE)-$(VERSION)/ && \
-	PKG_CONFIG_PATH=$(PWD)/tmp$(ARCH)/root/lib/pkgconfig lt_cv_deplibs_check_method=pass_all ./configure --host=$(HOST) --build=x86_64-unknown-linux-gnu --prefix=$(PWD)/tmp$(ARCH)/root LDFLAGS=-L$(PWD)/tmp$(ARCH)/root/lib CPPFLAGS="-I$(PWD)/tmp$(ARCH)/root/include" && \
+	CC="$(HOST)-gcc -static-libgcc" PKG_CONFIG_PATH=$(PWD)/tmp$(ARCH)/root/lib/pkgconfig lt_cv_deplibs_check_method=pass_all ./configure --host=$(HOST) --build=x86_64-unknown-linux-gnu --prefix=$(PWD)/tmp$(ARCH)/root LDFLAGS=-L$(PWD)/tmp$(ARCH)/root/lib CPPFLAGS="-I$(PWD)/tmp$(ARCH)/root/include" && \
 	make install $(CHECK) && \
 	cp COPYING $(PWD)/tmp$(ARCH)/root/licenses/$(PACKAGE).txt && \
 	cd .. && \
