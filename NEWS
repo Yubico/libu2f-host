@@ -1,5 +1,7 @@
 Copyright (C) 2013-2015 Yubico AB.  Licensed under GPLv3+     . -*- outline -*-
 
+* Version 0.0.5 (unreleased)
+
 * Version 0.0.4 (released 2015-01-22)
 
 ** Add an exponential growing timeout for slow devices (PlugUp).
