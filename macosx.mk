@@ -53,6 +53,18 @@ doit:
 	cd $(PACKAGE)-$(VERSION)/ && \
 	PKG_CONFIG_PATH=$(PWD)/tmp$(ARCH)/root/lib/pkgconfig ./configure --prefix=$(PWD)/tmp$(ARCH)/root CFLAGS=-mmacosx-version-min=10.6 && \
 	make install check && \
+	install_name_tool -id @executable_path/../lib/libjson-c.2.dylib $(PWD)/tmp/root/lib/libjson-c.2.dylib && \
+	install_name_tool -id @executable_path/../lib/libjson.0.dylib $(PWD)/tmp/root/lib/libjson.0.dylib && \
+	install_name_tool -change $(PWD)/tmp/root/lib/libjson-c.2.dylib @executable_path/../lib/libjson-c.2.dylib $(PWD)/tmp/root/lib/libjson.dylib && \
+	install_name_tool -id @executable_path/../lib/libhidapi.0.dylib $(PWD)/tmp/root/lib/libhidapi.0.dylib && \
+	install_name_tool -id @executable_path/../lib/libu2f-host.0.dylib $(PWD)/tmp/root/lib/libu2f-host.0.dylib && \
+	install_name_tool -change $(PWD)/tmp/root/lib/libjson-c.2.dylib @executable_path/../libjson-c.2.dylib $(PWD)/tmp/root/lib/libu2f-host.0.dylib && \
+	install_name_tool -change $(PWD)/tmp/root/lib/libhidapi.0.dylib @executable_path/../libhidapi.0.dylib $(PWD)/tmp/root/lib/libu2f-host.0.dylib && \
+	for executable in $(PWD)/tmp/root/bin/*; do \
+	install_name_tool -change $(PWD)/tmp/root/lib/libjson-c.2.dylib @executable_path/../lib/libjson-c.2.dylib $$executable ; \
+	install_name_tool -change $(PWD)/tmp/root/lib/libhidapi.0.dylib @executable_path/../lib/libhidapi.0.dylib $$executable ; \
+	install_name_tool -change $(PWD)/tmp/root/lib/libu2f-host.0.dylib @executable_path/../lib/libu2f-host.0.dylib $$executable ; \
+	done && \
 	cp COPYING $(PWD)/tmp$(ARCH)/root/licenses/$(PACKAGE).txt && \
 	cd .. && \
 	cd root && \
