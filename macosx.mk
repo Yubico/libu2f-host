@@ -58,8 +58,8 @@ doit:
 	install_name_tool -change $(PWD)/tmp/root/lib/libjson-c.2.dylib @executable_path/../lib/libjson-c.2.dylib $(PWD)/tmp/root/lib/libjson.dylib && \
 	install_name_tool -id @executable_path/../lib/libhidapi.0.dylib $(PWD)/tmp/root/lib/libhidapi.0.dylib && \
 	install_name_tool -id @executable_path/../lib/libu2f-host.0.dylib $(PWD)/tmp/root/lib/libu2f-host.0.dylib && \
-	install_name_tool -change $(PWD)/tmp/root/lib/libjson-c.2.dylib @executable_path/../libjson-c.2.dylib $(PWD)/tmp/root/lib/libu2f-host.0.dylib && \
-	install_name_tool -change $(PWD)/tmp/root/lib/libhidapi.0.dylib @executable_path/../libhidapi.0.dylib $(PWD)/tmp/root/lib/libu2f-host.0.dylib && \
+	install_name_tool -change $(PWD)/tmp/root/lib/libjson-c.2.dylib @executable_path/../lib/libjson-c.2.dylib $(PWD)/tmp/root/lib/libu2f-host.0.dylib && \
+	install_name_tool -change $(PWD)/tmp/root/lib/libhidapi.0.dylib @executable_path/../lib/libhidapi.0.dylib $(PWD)/tmp/root/lib/libu2f-host.0.dylib && \
 	for executable in $(PWD)/tmp/root/bin/*; do \
 	install_name_tool -change $(PWD)/tmp/root/lib/libjson-c.2.dylib @executable_path/../lib/libjson-c.2.dylib $$executable ; \
 	install_name_tool -change $(PWD)/tmp/root/lib/libhidapi.0.dylib @executable_path/../lib/libhidapi.0.dylib $$executable ; \
