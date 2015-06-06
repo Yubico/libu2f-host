@@ -19,7 +19,7 @@ ACLOCAL_AMFLAGS = -I m4 -I gl/m4
 
 DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc
 
-EXTRA_DIST = BLURB cfg.mk macosx.mk windows.mk
+EXTRA_DIST = BLURB cfg.mk macosx.mk windows.mk COPYING.LGPLv2
 
 EXTRA_DIST += doc/Mode_switch_YubiKey_NEO.adoc
 
