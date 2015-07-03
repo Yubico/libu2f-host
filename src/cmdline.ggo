@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+package "u2f-host"
 purpose "Perform U2F host-side operations on the command line. Reads challenge from standard input and writes a response to standard output."
 
 option "origin" o "Origin URL to use." string optional
