@@ -57,4 +57,5 @@ my-release:
 	$(YUBICO_WWW_REPO)/publish $(PACKAGE) $(VERSION) $(PACKAGE)-$(VERSION).tar.xz*
 	$(YUBICO_WWW_REPO)/publish $(PACKAGE) $(VERSION) $(PACKAGE)-$(VERSION)-win32.zip*
 	$(YUBICO_WWW_REPO)/publish $(PACKAGE) $(VERSION) $(PACKAGE)-$(VERSION)-win64.zip*
-	rsync -a $(srcdir)/gtk-doc/html/ $(YUBICO_WWW_REPO)/$(PACKAGE)/gtk-doc/
+	$(HELP2ADOC) -e src/u2f-host -n "Yubico Universal 2nd Factor (U2F) Host Tool" > u2f-host.1.txt
+	$(YUBICO_WWW_REPO)/save-mans $(PACKAGE) u2f-host.1.txt

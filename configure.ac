@@ -33,6 +33,7 @@ LT_INIT([win32-dll])
 
 GTK_DOC_CHECK(1.1)
 AM_MISSING_PROG(HELP2MAN, help2man, $missing_dir)
+AM_MISSING_PROG(HELP2ADOC, help2adoc, $missing_dir)
 
 PKG_CHECK_MODULES([LIBJSON], [json-c], [], [
   PKG_CHECK_MODULES([LIBJSON], [json])])
