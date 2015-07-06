@@ -25,6 +25,11 @@
 #include "inc/u2f.h"
 #include "inc/u2f_hid.h"
 
+#ifndef _WIN32
+#include <unistd.h>
+#define Sleep(x) (usleep((x) * 1000))
+#endif
+
 struct u2fdevice
 {
   hid_device *devh;

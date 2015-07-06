@@ -204,7 +204,7 @@ u2fh_authenticate (u2fh_devs * devs,
 	}
       if (len == 2 && memcmp (buf, NOTSATISFIED, 2) == 0)
 	{
-	  sleep (1);
+	  Sleep (1000);
 	}
     }
   while ((flags & U2FH_REQUEST_USER_PRESENCE)

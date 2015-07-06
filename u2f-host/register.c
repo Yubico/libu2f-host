@@ -157,7 +157,7 @@ u2fh_register (u2fh_devs * devs,
 	{
 	  break;
 	}
-      sleep (1);
+      Sleep (1000);
     }
   while ((flags & U2FH_REQUEST_USER_PRESENCE)
 	 && len == 2 && memcmp (buf, NOTSATISFIED, 2) == 0);
