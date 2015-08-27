@@ -25,7 +25,7 @@ EXTRA_DIST += doc/Mode_switch_YubiKey_NEO.adoc
 
 EXTRA_DIST += 70-u2f.rules 70-old-u2f.rules
 udevrulesdir = @udevrulesdir@
-dist_udevrules_DATA = @udevrulesfile@
+dist_udevrules_DATA = $(udevrulesfile)
 
 # Release
 
