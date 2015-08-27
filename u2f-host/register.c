@@ -167,6 +167,9 @@ u2fh_register (u2fh_devs * devs,
   while ((flags & U2FH_REQUEST_USER_PRESENCE)
 	 && len == 2 && memcmp (buf, NOTSATISFIED, 2) == 0);
 
-  prepare_response (buf, len - 2, bd, response);
+  if (len != 2)
+    {
+      prepare_response (buf, len - 2, bd, response);
+    }
   return U2FH_OK;
 }
