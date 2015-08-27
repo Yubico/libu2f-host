@@ -88,3 +88,4 @@ u2f-host/libu2f-host.la
 u2f-host/libu2f_b64.la
 u2f-host/u2f-host-version.h
 u2f-host/u2f-host.pc
+u2f-host.1.txt
