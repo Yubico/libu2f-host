@@ -136,6 +136,7 @@ u2fh_authenticate (u2fh_devs * devs,
   size_t khlen;
   int skip_devices[devs->num_devices];
   int skipped = 0;
+  int iterations = 0;
 
   memset (skip_devices, 0, sizeof (skip_devices));
 
@@ -167,6 +168,10 @@ u2fh_authenticate (u2fh_devs * devs,
   do
     {
       int i;
+      if (iterations++ > 15)
+	{
+	  return U2FH_TIMEOUT_ERROR;
+	}
       for (i = 0; i < devs->num_devices; i++)
 	{
 	  unsigned char tmp_buf[MAXDATASIZE];

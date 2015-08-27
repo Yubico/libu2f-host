@@ -26,6 +26,8 @@
  * @U2FH_JSON_ERROR: Json error.
  * @U2FH_BASE64_ERROR: Base64 error.
  * @U2FH_NO_U2F_DEVICE: Missing U2F device.
+ * @U2FH_AUTHENTICATOR_ERROR: Authenticator error.
+ * @U2FH_TIMEOUT_ERROR: Timeout error.
  *
  * Error codes.
  */
@@ -38,6 +40,7 @@ typedef enum
   U2FH_BASE64_ERROR = -4,
   U2FH_NO_U2F_DEVICE = -5,
   U2FH_AUTHENTICATOR_ERROR = -6,
+  U2FH_TIMEOUT_ERROR = -7,
 } u2fh_rc;
 
 /**

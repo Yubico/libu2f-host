@@ -113,6 +113,7 @@ u2fh_register (u2fh_devs * devs,
   int rc = U2FH_JSON_ERROR;
   char chalb64[256];
   size_t challen = sizeof (chalb64);
+  int iterations = 0;
 
   rc = get_fixed_json_data (challenge, "challenge", chalb64, &challen);
   if (rc != U2FH_OK)
@@ -134,6 +135,10 @@ u2fh_register (u2fh_devs * devs,
   do
     {
       int i;
+      if (iterations++ > 15)
+	{
+	  return U2FH_TIMEOUT_ERROR;
+	}
       for (i = 0; i < devs->num_devices; i++)
 	{
 	  if (!devs->devs[i].is_alive)
