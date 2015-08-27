@@ -1,5 +1,7 @@
 Copyright (C) 2013-2015 Yubico AB.  Licensed under GPLv3+     . -*- outline -*-
 
+* Version 1.0.1 (unreleased)
+
 * Version 1.0.0 (released 2015-08-27)
 
 ** Add udev rules for older version of udev.
