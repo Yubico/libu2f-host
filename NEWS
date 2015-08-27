@@ -1,6 +1,14 @@
 Copyright (C) 2013-2015 Yubico AB.  Licensed under GPLv3+     . -*- outline -*-
 
-* Version 0.0.5 (unreleased)
+* Version 1.0.0 (unreleased)
+
+** Add udev rules for older version of udev.
+
+** Add pam:// as an allowed protocol.
+
+** Stop using sleep(), use Sleep() on windows and usleep() on others.
+
+** Fixup tool name in help and manpage.
 
 * Version 0.0.4 (released 2015-01-22)
 
