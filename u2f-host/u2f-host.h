@@ -21,8 +21,8 @@
 #include <stdint.h>
 #include <string.h>
 
-#include <u2f-host/u2f-host-version.h>
-#include <u2f-host/u2f-host-types.h>
+#include <u2f-host-version.h>
+#include <u2f-host-types.h>
 
 #ifdef __cplusplus
 extern "C"

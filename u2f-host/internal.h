@@ -18,7 +18,7 @@
 #ifndef INTERNAL_H
 #define INTERNAL_H
 
-#include <u2f-host/u2f-host.h>
+#include <u2f-host.h>
 #include <hidapi.h>
 #include <stdio.h>
 

@@ -16,7 +16,7 @@
 */
 
 #include <config.h>
-#include <u2f-host/u2f-host.h>
+#include <u2f-host.h>
 
 #include <stdio.h>
 #include <stdlib.h>

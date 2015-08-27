@@ -14,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 AM_CFLAGS = $(WARN_CFLAGS)
-AM_CPPFLAGS=-I$(srcdir)/.. -I$(builddir)/..
+AM_CPPFLAGS=-I$(top_srcdir)/u2f-host -I$(top_builddir)
 
 AM_LDFLAGS = -no-install
 LDADD = ../u2f-host/libu2f-host.la

@@ -16,7 +16,7 @@
 */
 
 #include <config.h>
-#include <u2f-host/u2f-host-version.h>
+#include <u2f-host-version.h>
 
 #include "check-version.h"
 
