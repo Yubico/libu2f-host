@@ -1,6 +1,16 @@
 # this udev file should be used with udev older than 188
 ACTION!="add|change", GOTO="u2f_end"
 
+# Yubico YubiKey
 KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1050", ATTRS{idProduct}=="0113|0114|0115|0116|0120|0402|0403|0406|0407|0410", GROUP="plugdev", MODE="0660"
+
+# Happlink (formaly Plug-Up) Security KEY
+KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="2581", ATTRS{idProduct}=="f1d0", GROUP="plugdev", MODE="0660"
+
+#  Neowave Keydo
+KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1e0d", ATTRS{idProduct}=="f1d0", GROUP="plugdev", MODE="0660"
+
+# HyperSecu HyperFIDO
+KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="096e", ATTRS{idProduct}=="0880", GROUP="plugdev", MODE="0660"
 
 LABEL="u2f_end"
