@@ -18,6 +18,6 @@ purpose "Perform U2F host-side operations on the command line. Reads challenge f
 
 option "origin" o "Origin URL to use." string optional
 option "action" a "Action to take." values="register","authenticate","sendrecv" enum
-option "touch" t "Invert user-precense flag (on by default)" flag off
+option "touch" t "Invert user-presence flag (on by default)" flag off
 option "debug" d "Print debug information to standard error" flag off
 option "command" c "Command for sendrecv action" string optional

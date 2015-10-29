@@ -56,7 +56,7 @@ typedef enum
 
 /**
  * u2fh_cmdflags:
- * @U2FH_REQUEST_USER_PRESENCE: Request user precense.
+ * @U2FH_REQUEST_USER_PRESENCE: Request user presence.
  *
  * Flags passed to u2fh_register() and u2fh_authenticate().
  */
