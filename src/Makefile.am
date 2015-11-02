@@ -14,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 AM_CFLAGS = $(WARN_CFLAGS)
-AM_CPPFLAGS=-I$(top_srcdir)/u2f-host -I$(top_builddir)
+AM_CPPFLAGS=-I$(top_srcdir)/u2f-host -I$(top_builddir) -I$(top_builddir)/u2f-host
 
 bin_PROGRAMS = u2f-host
 
