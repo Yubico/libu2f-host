@@ -170,6 +170,7 @@ u2fh_register (u2fh_devs * devs,
   if (len != 2)
     {
       prepare_response (buf, len - 2, bd, response);
+      return U2FH_OK;
     }
-  return U2FH_OK;
+  return U2FH_TRANSPORT_ERROR;
 }

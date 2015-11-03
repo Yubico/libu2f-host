@@ -222,7 +222,8 @@ u2fh_authenticate (u2fh_devs * devs,
   if (len != 2)
     {
       prepare_response (buf, len - 2, bd, challenge, response);
+      return U2FH_OK;
     }
 
-  return U2FH_OK;
+  return U2FH_TRANSPORT_ERROR;
 }
