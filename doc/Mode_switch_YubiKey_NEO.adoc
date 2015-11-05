@@ -24,7 +24,7 @@ use the following:
   echo -e '\x01\x00\x00\x00' | u2f-host -d -a sendrecv -c c0
 
 For mode-switching in other modes (OTP, CCID or combo modes), we
-recommend the following libraries and command line tools instead:
+recommend the following libraries and command-line tools instead:
 
 For OTP-modes:: https://developers.yubico.com/yubikey-personalization[YubiKey Personalization]
 
