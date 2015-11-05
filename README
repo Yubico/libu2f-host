@@ -4,14 +4,14 @@ Yubico Universal 2nd Factor (U2F) Host C Library
 Introduction
 ------------
 
-Libu2f-host provide a C library and command-line tool that implements
+Libu2f-host provides a C library and command-line tool that implements
 the host-side of the U2F protocol.  There are APIs to talk to a U2F
 device and perform the U2F Register and U2F Authenticate operations.
 
 License
 -------
 
-The library is licensed under the LGPLv2+ license.  The command line
+The library is licensed under the LGPLv2+ license.  The command-line
 tool and some other files are licensed under the GPLv3+ license.  The
 license for each file should be clear from the comments at the top of
 it.  See the files COPYING (for GPLv3) and COPYING.LGPLv2 for complete
@@ -26,7 +26,7 @@ Usage
 The library usage is documented in the API manual, see gtk-doc/html/
 after you built with `./configure --enable-gtk-doc`.
 
-There is a command line utility that is useful for debugging or
+There is a command-line utility that is useful for debugging or
 testing.  We describe how you could use it here.
 
 === Register
@@ -68,7 +68,7 @@ The output from that web service is JSON with some information.
 ----
 
 === Authenticate
-To authenticate (aka sign) you should acquire a challenge somehow.
+To authenticate (aka sign), you should acquire a challenge somehow.
 Our demo server provides them.
 
  $ curl 'https://demo.yubico.com/wsapi/u2f/sign?username=jas&password=foo' > foo
@@ -122,7 +122,7 @@ All of the above can be installed in Debian via:
 === Instructions
 This project uses autoconf, automake and libtool to achieve
 portability and ease of use.  If you downloaded a tarball, build it as
-follows.
+follows:
 
  $ ./configure --enable-gtk-doc
  $ make check && sudo make install
