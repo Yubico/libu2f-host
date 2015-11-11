@@ -7,8 +7,8 @@ KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1050", ATTRS{idProduct
 # Happlink (formaly Plug-Up) Security KEY
 KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="2581", ATTRS{idProduct}=="f1d0", GROUP="plugdev", MODE="0660"
 
-#  Neowave Keydo
-KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1e0d", ATTRS{idProduct}=="f1d0", GROUP="plugdev", MODE="0660"
+#  Neowave Keydo and Keydo AES
+KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1e0d", ATTRS{idProduct}=="f1d0|f1ae", GROUP="plugdev", MODE="0660"
 
 # HyperSecu HyperFIDO
 KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="096e", ATTRS{idProduct}=="0880", GROUP="plugdev", MODE="0660"
