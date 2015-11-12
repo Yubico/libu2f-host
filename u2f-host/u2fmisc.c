@@ -326,9 +326,10 @@ send_apdu (u2fh_devs * devs, int index, int cmd, const unsigned char *d,
   sprintf (data, "%c%c%c%c%c%c%c", 0, cmd, p1, 0, 0, (dlen >> 8) & 0xff,
 	   dlen & 0xff);
   memcpy (data + RESPHEAD_SIZE, d, dlen);
+  memset (data + RESPHEAD_SIZE + dlen, 0, 2);
 
   rc =
-    u2fh_sendrecv (devs, index, U2FHID_MSG, data, RESPHEAD_SIZE + dlen, out,
+    u2fh_sendrecv (devs, index, U2FHID_MSG, data, RESPHEAD_SIZE + dlen + 2, out,
 		   outlen);
   if (rc != U2FH_OK)
     {
