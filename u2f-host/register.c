@@ -51,8 +51,10 @@ prepare_response2 (const char *respstr, const char *bdstr, char **response)
 
 done:
   json_object_put (jo);
-  json_object_put (resp);
-  json_object_put (bd);
+  if (!jo) {
+    json_object_put (resp);
+    json_object_put (bd);
+  }
 
   return rc;
 }
