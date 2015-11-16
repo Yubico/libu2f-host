@@ -93,9 +93,11 @@ prepare_browserdata (const char *challenge, const char *origin,
 
 done:
   json_object_put (jo);
-  json_object_put (chal);
-  json_object_put (orig);
-  json_object_put (typ);
+  if (!jo) {
+    json_object_put (chal);
+    json_object_put (orig);
+    json_object_put (typ);
+  }
   return rc;
 }
 

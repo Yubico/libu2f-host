@@ -67,9 +67,11 @@ prepare_response2 (const char *encstr, const char *bdstr, const char *input,
 
 done:
   json_object_put (jo);
-  json_object_put (enc);
-  json_object_put (bd);
-  json_object_put (key);
+  if (!jo) {
+    json_object_put (enc);
+    json_object_put (bd);
+    json_object_put (key);
+  }
 
   return rc;
 }
