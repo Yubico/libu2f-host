@@ -205,7 +205,6 @@ u2fh_authenticate (u2fh_devs * devs,
 	    {
 	      skipped++;
 	      skip_devices[i] = 2;
-	      continue;
 	    }
 	  memcpy (buf, tmp_buf, len);
 	}
