@@ -33,7 +33,8 @@ main (int argc, char *argv[])
   struct gengetopt_args_info args_info;
   char challenge[BUFSIZ];
   size_t chal_len;
-  char *response = NULL;
+  char response[2048];
+  size_t response_len = sizeof (response);
   u2fh_devs *devs = NULL;
   u2fh_cmdflags flags = 0;
   u2fh_rc rc;
@@ -98,16 +99,17 @@ main (int argc, char *argv[])
 
       if (args_info.action_arg == action_arg_register)
 	{
-	  rc = u2fh_register (devs, challenge, args_info.origin_arg,
-			      &response,
-			      args_info.touch_flag ? 0 :
-			      U2FH_REQUEST_USER_PRESENCE);
+	  rc = u2fh_register2 (devs, challenge, args_info.origin_arg,
+			       response, &response_len,
+			       args_info.touch_flag ? 0 :
+			       U2FH_REQUEST_USER_PRESENCE);
 	}
       else
 	{
-	  rc = u2fh_authenticate (devs, challenge, args_info.origin_arg,
-				  &response, args_info.touch_flag ? 0 :
-				  U2FH_REQUEST_USER_PRESENCE);
+	  rc = u2fh_authenticate2 (devs, challenge, args_info.origin_arg,
+				   response, &response_len,
+				   args_info.touch_flag ? 0 :
+				   U2FH_REQUEST_USER_PRESENCE);
 	}
       break;
     case action_arg_sendrecv:
