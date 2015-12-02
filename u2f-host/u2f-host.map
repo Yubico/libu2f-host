@@ -33,3 +33,10 @@ U2F_HOST_0.0
   local:
     *;
 };
+
+U2F_HOST_1.1
+{
+  global:
+    u2fh_authenticate2;
+    u2fh_register2;
+} U2F_HOST_0.0;

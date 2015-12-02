@@ -24,10 +24,12 @@
 #include "sha256.h"
 
 static int
-prepare_response2 (const char *respstr, const char *bdstr, char **response)
+prepare_response2 (const char *respstr, const char *bdstr, char **response,
+		   size_t * response_len)
 {
   int rc = U2FH_JSON_ERROR;
   struct json_object *jo = NULL, *resp = NULL, *bd = NULL;
+  const char *reply;
 
   bd = json_object_new_string (bdstr);
   if (bd == NULL)
@@ -43,7 +45,21 @@ prepare_response2 (const char *respstr, const char *bdstr, char **response)
   json_object_object_add (jo, "registrationData", resp);
   json_object_object_add (jo, "clientData", bd);
 
-  *response = strdup (json_object_to_json_string (jo));
+  reply = json_object_to_json_string (jo);
+  if (*response == NULL)
+    {
+      *response = strdup (reply);
+    }
+  else
+    {
+      if (strlen (reply) >= *response_len)
+	{
+	  rc = U2FH_SIZE_ERROR;
+	  goto done;
+	}
+      strncpy (*response, reply, *response_len);
+    }
+  *response_len = strlen (reply);
   if (*response == NULL)
     rc = U2FH_MEMORY_ERROR;
   else
@@ -61,7 +77,7 @@ done:
 
 static int
 prepare_response (const unsigned char *buf, int len, const char *bd,
-		  char **response)
+		  char **response, size_t * response_len)
 {
   base64_encodestate b64ctx;
   char b64resp[2048];
@@ -81,7 +97,7 @@ prepare_response (const unsigned char *buf, int len, const char *bd,
   cnt = base64_encode_block (bd, strlen (bd), bdstr, &b64ctx);
   base64_encode_blockend (bdstr + cnt, &b64ctx);
 
-  return prepare_response2 (b64resp, bdstr, response);
+  return prepare_response2 (b64resp, bdstr, response, response_len);
 }
 
 #define V2CHALLEN 32
@@ -89,23 +105,11 @@ prepare_response (const unsigned char *buf, int len, const char *bd,
 #define HOSIZE 32
 #define NOTSATISFIED "\x69\x85"
 
-/**
- * u2fh_register:
- * @devs: a device set handle, from u2fh_devs_init() and u2fh_devs_discover().
- * @challenge: string with JSON data containing the challenge.
- * @origin: U2F origin URL.
- * @response: pointer to output string with JSON data.
- * @flags: set of ORed #u2fh_cmdflags values.
- *
- * Perform the U2F Register operation.
- *
- * Returns: On success %U2FH_OK (integer 0) is returned, and on errors
- * an #u2fh_rc error code.
- */
-u2fh_rc
-u2fh_register (u2fh_devs * devs,
-	       const char *challenge,
-	       const char *origin, char **response, u2fh_cmdflags flags)
+static u2fh_rc
+_u2fh_register (u2fh_devs * devs,
+		const char *challenge,
+		const char *origin, char **response, size_t * response_len,
+		u2fh_cmdflags flags)
 {
   unsigned char data[V2CHALLEN + HOSIZE];
   unsigned char buf[MAXDATASIZE];
@@ -171,8 +175,56 @@ u2fh_register (u2fh_devs * devs,
 
   if (len != 2)
     {
-      prepare_response (buf, len - 2, bd, response);
+      prepare_response (buf, len - 2, bd, response, response_len);
       return U2FH_OK;
     }
   return U2FH_TRANSPORT_ERROR;
+}
+
+/**
+ * u2fh_register2:
+ * @devs: a device set handle, from u2fh_devs_init() and u2fh_devs_discover().
+ * @challenge: string with JSON data containing the challenge.
+ * @origin: U2F origin URL.
+ * @response: pointer to output string with JSON data.
+ * @response_len: pointer to length of @response
+ * @flags: set of ORed #u2fh_cmdflags values.
+ *
+ * Perform the U2F Register operation.
+ *
+ * Returns: On success %U2FH_OK (integer 0) is returned, and on errors
+ * an #u2fh_rc error code.
+ */
+u2fh_rc
+u2fh_register2 (u2fh_devs * devs,
+		const char *challenge,
+		const char *origin, char *response, size_t * response_len,
+		u2fh_cmdflags flags)
+{
+  return _u2fh_register (devs, challenge, origin, &response, response_len,
+			 flags);
+}
+
+/**
+ * u2fh_register:
+ * @devs: a device set handle, from u2fh_devs_init() and u2fh_devs_discover().
+ * @challenge: string with JSON data containing the challenge.
+ * @origin: U2F origin URL.
+ * @response: pointer to pointer for output data
+ * @flags: set of ORed #u2fh_cmdflags values.
+ *
+ * Perform the U2F Register operation.
+ *
+ * Returns: On success %U2FH_OK (integer 0) is returned, and on errors
+ * an #u2fh_rc error code.
+ */
+u2fh_rc
+u2fh_register (u2fh_devs * devs,
+	       const char *challenge,
+	       const char *origin, char **response, u2fh_cmdflags flags)
+{
+  size_t response_len = 0;
+  *response = NULL;
+  return _u2fh_register (devs, challenge, origin, response, &response_len,
+			 flags);
 }

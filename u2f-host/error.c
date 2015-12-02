@@ -36,6 +36,7 @@ static const err_t errors[] = {
   ERR (U2FH_NO_U2F_DEVICE, "cannot find U2F device"),
   ERR (U2FH_AUTHENTICATOR_ERROR, "authenticator error"),
   ERR (U2FH_TIMEOUT_ERROR, "timeout error"),
+  ERR (U2FH_SIZE_ERROR, "size error, buffer to small"),
 };
 
 /**

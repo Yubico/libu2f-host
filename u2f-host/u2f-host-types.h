@@ -41,6 +41,7 @@ typedef enum
   U2FH_NO_U2F_DEVICE = -5,
   U2FH_AUTHENTICATOR_ERROR = -6,
   U2FH_TIMEOUT_ERROR = -7,
+  U2FH_SIZE_ERROR = -8,
 } u2fh_rc;
 
 /**
