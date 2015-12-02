@@ -93,11 +93,12 @@ prepare_browserdata (const char *challenge, const char *origin,
 
 done:
   json_object_put (jo);
-  if (!jo) {
-    json_object_put (chal);
-    json_object_put (orig);
-    json_object_put (typ);
-  }
+  if (!jo)
+    {
+      json_object_put (chal);
+      json_object_put (orig);
+      json_object_put (typ);
+    }
   return rc;
 }
 
@@ -331,8 +332,8 @@ send_apdu (u2fh_devs * devs, int index, int cmd, const unsigned char *d,
   memset (data + RESPHEAD_SIZE + dlen, 0, 2);
 
   rc =
-    u2fh_sendrecv (devs, index, U2FHID_MSG, data, RESPHEAD_SIZE + dlen + 2, out,
-		   outlen);
+    u2fh_sendrecv (devs, index, U2FHID_MSG, data, RESPHEAD_SIZE + dlen + 2,
+		   out, outlen);
   if (rc != U2FH_OK)
     {
       if (debug)
