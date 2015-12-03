@@ -55,6 +55,7 @@ prepare_response2 (const char *respstr, const char *bdstr, char **response,
       if (strlen (reply) >= *response_len)
 	{
 	  rc = U2FH_SIZE_ERROR;
+	  *response_len = strlen (reply) + 1;
 	  goto done;
 	}
       strncpy (*response, reply, *response_len);
