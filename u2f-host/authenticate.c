@@ -18,7 +18,6 @@
 #include <config.h>
 #include "internal.h"
 
-#include <unistd.h>
 #include <json.h>
 #include "b64/cencode.h"
 #include "b64/cdecode.h"

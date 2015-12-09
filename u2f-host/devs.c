@@ -19,7 +19,6 @@
 #include "internal.h"
 
 #include <stdlib.h>
-#include <unistd.h>
 #ifdef __linux
 #include <string.h>
 #include <sys/ioctl.h>
