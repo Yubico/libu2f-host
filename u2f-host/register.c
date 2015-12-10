@@ -142,19 +142,15 @@ _u2fh_register (u2fh_devs * devs,
 
   do
     {
-      int i;
+      struct u2fdevice *dev;
       if (iterations++ > 15)
 	{
 	  return U2FH_TIMEOUT_ERROR;
 	}
-      for (i = 0; i < devs->num_devices; i++)
+      for (dev = devs->first; dev != NULL; dev = dev->next)
 	{
-	  if (!devs->devs[i].is_alive)
-	    {
-	      continue;
-	    }
 	  len = MAXDATASIZE;
-	  rc = send_apdu (devs, i, U2F_REGISTER, data, sizeof (data),
+	  rc = send_apdu (devs, dev->id, U2F_REGISTER, data, sizeof (data),
 			  flags & U2FH_REQUEST_USER_PRESENCE ? 3 : 0, buf,
 			  &len);
 	  if (rc != U2FH_OK)

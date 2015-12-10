@@ -155,14 +155,12 @@ u2fh_sendrecv (u2fh_devs * devs, unsigned index, uint8_t cmd,
 {
   int datasent = 0;
   int sequence = 0;
-  struct u2fdevice *dev;
+  struct u2fdevice *dev = get_device (devs, index);
 
-  if (index >= devs->num_devices || !devs->devs[index].is_alive)
+  if (!dev)
     {
       return U2FH_NO_U2F_DEVICE;
     }
-
-  dev = &devs->devs[index];
 
   while (sendlen > datasent)
     {

@@ -141,11 +141,7 @@ _u2fh_authenticate (u2fh_devs * devs,
   size_t kh64len = sizeof (khb64);
   base64_decodestate b64;
   size_t khlen;
-  int skip_devices[devs->num_devices];
-  int skipped = 0;
   int iterations = 0;
-
-  memset (skip_devices, 0, sizeof (skip_devices));
 
   rc = get_fixed_json_data (challenge, "challenge", chalb64, &challen);
   if (rc != U2FH_OK)
@@ -174,26 +170,24 @@ _u2fh_authenticate (u2fh_devs * devs,
 
   do
     {
-      int i;
+      struct u2fdevice *dev;
       if (iterations++ > 15)
 	{
 	  return U2FH_TIMEOUT_ERROR;
 	}
-      for (i = 0; i < devs->num_devices; i++)
+      for (dev = devs->first; dev != NULL; dev = dev->next)
 	{
 	  unsigned char tmp_buf[MAXDATASIZE];
-	  if (skip_devices[i] != 0)
+	  if (iterations == 0)
 	    {
-	      continue;
+	      dev->skipped = 0;
 	    }
-	  if (!devs->devs[i].is_alive)
+	  else if (dev->skipped != 0)
 	    {
-	      skipped++;
-	      skip_devices[i] = 1;
 	      continue;
 	    }
 	  len = MAXDATASIZE;
-	  rc = send_apdu (devs, i, U2F_AUTHENTICATE, data,
+	  rc = send_apdu (devs, dev->id, U2F_AUTHENTICATE, data,
 			  HOSIZE + CHALLBINLEN + khlen + 1,
 			  flags & U2FH_REQUEST_USER_PRESENCE ? 3 : 7, tmp_buf,
 			  &len);
@@ -208,8 +202,7 @@ _u2fh_authenticate (u2fh_devs * devs,
 	    }
 	  else if (memcmp (tmp_buf, NOTSATISFIED, 2) != 0)
 	    {
-	      skipped++;
-	      skip_devices[i] = 2;
+	      dev->skipped = 1;
 	    }
 	  memcpy (buf, tmp_buf, len);
 	}

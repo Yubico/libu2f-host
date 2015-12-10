@@ -34,11 +34,13 @@
 
 struct u2fdevice
 {
+  struct u2fdevice *next;
   hid_device *devh;
+  unsigned id;
   uint32_t cid;
   char *device_string;
   char *device_path;
-  int is_alive;
+  int skipped;
   uint8_t versionInterface;	// Interface version
   uint8_t versionMajor;		// Major version number
   uint8_t versionMinor;		// Minor version number
@@ -48,8 +50,8 @@ struct u2fdevice
 
 struct u2fh_devs
 {
-  int num_devices;
-  struct u2fdevice *devs;
+  unsigned max_id;
+  struct u2fdevice *first;
 };
 
 extern int debug;
@@ -70,5 +72,7 @@ u2fh_rc send_apdu (u2fh_devs * devs, int index, int cmd,
 int get_fixed_json_data (const char *jsonstr, const char *key, char *p,
 			 size_t * len);
 int hash_data (const char *in, size_t len, unsigned char *out);
+
+struct u2fdevice *get_device (u2fh_devs * devs, unsigned index);
 
 #endif
