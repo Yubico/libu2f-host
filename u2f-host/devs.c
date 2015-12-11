@@ -148,11 +148,36 @@ get_usages (struct hid_device_info *dev, unsigned short *usage_page,
 }
 
 static void
-close_device (struct u2fdevice *dev)
+close_device (u2fh_devs * devs, struct u2fdevice *dev)
 {
   hid_close (dev->devh);
   free (dev->device_path);
   free (dev->device_string);
+  if (dev == devs->first)
+    {
+      if (dev->next)
+	{
+	  devs->first = dev->next;
+	}
+      else
+	{
+	  devs->first = NULL;
+	}
+      free (dev);
+    }
+  else
+    {
+      struct u2fdevice *d;
+      for (d = devs->first; d != NULL; d = d->next)
+	{
+	  struct u2fdevice *next = d->next;
+	  if (next && next == dev)
+	    {
+	      dev->next = next->next;
+	      free (next);
+	    }
+	}
+    }
 }
 
 struct u2fdevice *
@@ -167,37 +192,6 @@ get_device (u2fh_devs * devs, unsigned id)
 	}
     }
   return NULL;
-}
-
-static void
-remove_device (u2fh_devs * devs, unsigned id)
-{
-  struct u2fdevice *dev;
-  if (id == devs->first->id)
-    {
-      dev = devs->first;
-      if (dev->next)
-	{
-	  devs->first = dev->next;
-	}
-      else
-	{
-	  devs->first = NULL;
-	}
-      free (dev);
-    }
-  else
-    {
-      for (dev = devs->first; dev != NULL; dev = dev->next)
-	{
-	  struct u2fdevice *next = dev->next;
-	  if (next && next->id == id)
-	    {
-	      dev->next = next->next;
-	      free (next);
-	    }
-	}
-    }
 }
 
 static struct u2fdevice *
@@ -232,17 +226,17 @@ new_device (u2fh_devs * devs)
 static void
 close_devices (u2fh_devs * devs)
 {
-  struct u2fdevice *dev = devs->first;
+  struct u2fdevice *dev;
   if (devs == NULL)
     {
       return;
     }
+  dev = devs->first;
 
   while (dev)
     {
       struct u2fdevice *next = dev->next;
-      close_device (dev);
-      remove_device (devs, dev->id);
+      close_device (devs, dev);
       dev = next;
     }
 }
@@ -366,8 +360,7 @@ u2fh_devs_discover (u2fh_devs * devs, unsigned *max_index)
 		      fprintf (stderr, "Device %s failed ping, dead.\n",
 			       dev->device_path);
 		    }
-		  close_device (dev);
-		  remove_device (devs, dev->id);
+		  close_device (devs, dev);
 		  break;
 		}
 	    }
@@ -387,8 +380,8 @@ u2fh_devs_discover (u2fh_devs * devs, unsigned *max_index)
 	      dev->device_path = strdup (cur_dev->path);
 	      if (dev->device_path == NULL)
 		{
-		  close_device (dev);
-		  return U2FH_MEMORY_ERROR;
+		  close_device (devs, dev);
+		  goto out;
 		}
 	      if (init_device (devs, dev) == U2FH_OK)
 		{
@@ -399,8 +392,8 @@ u2fh_devs_discover (u2fh_devs * devs, unsigned *max_index)
 		      dev->device_string = malloc (len + 1);
 		      if (dev->device_string == NULL)
 			{
-			  close_device (dev);
-			  return U2FH_MEMORY_ERROR;
+			  close_device (devs, dev);
+			  goto out;
 			}
 		      memset (dev->device_string, 0, len + 1);
 		      wcstombs (dev->device_string, cur_dev->product_string,
@@ -420,13 +413,10 @@ u2fh_devs_discover (u2fh_devs * devs, unsigned *max_index)
 			}
 		    }
 		  res = U2FH_OK;
-		}
-	      else
-		{
-		  close_device (dev);
-		  remove_device (devs, dev->id);
+		  continue;
 		}
 	    }
+	  close_device (devs, dev);
 	}
     }
 
@@ -448,11 +438,11 @@ u2fh_devs_discover (u2fh_devs * devs, unsigned *max_index)
 	    {
 	      fprintf (stderr, "device %s looks dead.\n", dev->device_path);
 	    }
-	  close_device (dev);
-	  remove_device (devs, dev->id);
+	  close_device (devs, dev);
 	}
     }
 
+out:
   hid_free_enumeration (di);
   if (res == U2FH_OK && max_index)
     *max_index = devs->max_id - 1;
@@ -470,9 +460,6 @@ u2fh_devs_discover (u2fh_devs * devs, unsigned *max_index)
 void
 u2fh_devs_done (u2fh_devs * devs)
 {
-  if (devs == NULL)
-    return;
-
   close_devices (devs);
   hid_exit ();
 
