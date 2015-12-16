@@ -18,7 +18,16 @@
 #ifndef U2F_HOST_H
 #define U2F_HOST_H
 
+// Visual studio 2008 and earlier are missing stdint.h
+#if defined(_MSC_VER) && _MSC_VER <= 1500 && !defined(HAVE_STDINT_H)
+typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
+typedef unsigned int uint32_t;
+typedef unsigned long int uint64_t;
+#else
 #include <stdint.h>
+#endif
+
 #include <string.h>
 
 #include <u2f-host-version.h>
