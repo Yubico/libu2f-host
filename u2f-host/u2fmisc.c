@@ -318,14 +318,16 @@ u2fh_rc
 send_apdu (u2fh_devs * devs, int index, int cmd, const unsigned char *d,
 	   size_t dlen, int p1, unsigned char *out, size_t * outlen)
 {
-  unsigned char data[2048];
+  unsigned char data[2048] = {0};
   int rc;
 
   if (dlen > MAXDATASIZE)
     return U2FH_MEMORY_ERROR;
 
-  sprintf (data, "%c%c%c%c%c%c%c", 0, cmd, p1, 0, 0, (dlen >> 8) & 0xff,
-	   dlen & 0xff);
+  data[1] = cmd;
+  data[2] = p1;
+  data[5] = (dlen >> 8) & 0xff;
+  data[6] = dlen & 0xff;
   memcpy (data + RESPHEAD_SIZE, d, dlen);
   memset (data + RESPHEAD_SIZE + dlen, 0, 2);
 
