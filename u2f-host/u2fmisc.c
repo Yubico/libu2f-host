@@ -220,7 +220,7 @@ u2fh_sendrecv (u2fh_devs * devs, unsigned index, uint8_t cmd,
     int len = HID_RPT_SIZE;
     unsigned int maxlen = *recvlen;
     int recvddata = 0;
-    short datalen;
+    unsigned short datalen;
     int timeout = HID_TIMEOUT;
     int rc = 0;
 
