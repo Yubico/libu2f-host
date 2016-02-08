@@ -167,7 +167,7 @@ u2fh_sendrecv (u2fh_devs * devs, unsigned index, uint8_t cmd,
       U2FHID_FRAME frame = { 0 };
       {
 	int len = sendlen - datasent;
-	int maxlen;
+	unsigned int maxlen;
 	unsigned char *data;
 	frame.cid = dev->cid;
 	if (datasent == 0)
@@ -218,9 +218,9 @@ u2fh_sendrecv (u2fh_devs * devs, unsigned index, uint8_t cmd,
     U2FHID_FRAME frame;
     unsigned char data[HID_RPT_SIZE];
     int len = HID_RPT_SIZE;
-    int maxlen = *recvlen;
+    unsigned int maxlen = *recvlen;
     int recvddata = 0;
-    short datalen;
+    unsigned short datalen;
     int timeout = HID_TIMEOUT;
     int rc = 0;
 
