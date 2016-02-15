@@ -1,6 +1,24 @@
 Copyright (C) 2013-2015 Yubico AB.  Licensed under GPLv3+     . -*- outline -*-
 
-* Version 1.0.1 (unreleased)
+* Version 1.1.0 (released 2016-02-15)
+
+** Add udev rules for more devices.
+
+** Don't return success when no data is received.
+
+** Fix typos.
+
+** Make send_apdu send data like chrome does.
+
+** Don't release json object that we don't own no more.
+
+** Don't do memcmp on uninitialized memory.
+
+** Add u2fh_authenticate2() and u2fh_register2().
+
+** Remove base64 padding (required by spec).
+
+** Use unsigned ints to prevent buffer overflows.
 
 * Version 1.0.0 (released 2015-08-27)
 
