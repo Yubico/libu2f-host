@@ -58,7 +58,7 @@ prepare_response2 (const char *respstr, const char *bdstr, char **response,
 	  *response_len = strlen (reply) + 1;
 	  goto done;
 	}
-      strncpy (*response, reply, *response_len);
+      strcpy (*response, reply);
     }
   *response_len = strlen (reply);
   if (*response == NULL)
