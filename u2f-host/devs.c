@@ -334,7 +334,6 @@ u2fh_devs_discover (u2fh_devs * devs, unsigned *max_index)
 {
   struct hid_device_info *di, *cur_dev;
   u2fh_rc res = U2FH_NO_U2F_DEVICE;
-  unsigned index;
   struct u2fdevice *dev;
 
   di = hid_enumerate (0, 0);
@@ -347,7 +346,7 @@ u2fh_devs_discover (u2fh_devs * devs, unsigned *max_index)
 	{
 	  if (strcmp (dev->device_path, cur_dev->path) == 0)
 	    {
-	      if (ping_device (devs, index) == U2FH_OK)
+	      if (ping_device (devs, dev->id) == U2FH_OK)
 		{
 		  found = 1;
 		  res = U2FH_OK;
