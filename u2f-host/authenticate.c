@@ -204,7 +204,10 @@ _u2fh_authenticate (u2fh_devs * devs,
 	    {
 	      dev->skipped = 1;
 	    }
-	  memcpy (buf, tmp_buf, len);
+          else
+            {
+              memcpy (buf, tmp_buf, len);
+            }
 	}
       if (len == 2 && memcmp (buf, NOTSATISFIED, 2) == 0)
 	{
