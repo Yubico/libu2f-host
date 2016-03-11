@@ -171,10 +171,6 @@ _u2fh_authenticate (u2fh_devs * devs,
   do
     {
       struct u2fdevice *dev;
-      if (iterations++ > 15)
-	{
-	  return U2FH_TIMEOUT_ERROR;
-	}
       for (dev = devs->first; dev != NULL; dev = dev->next)
 	{
 	  unsigned char tmp_buf[MAXDATASIZE];
@@ -204,10 +200,14 @@ _u2fh_authenticate (u2fh_devs * devs,
 	    {
 	      dev->skipped = 1;
 	    }
-          else
-            {
-              memcpy (buf, tmp_buf, len);
-            }
+	  else
+	    {
+	      memcpy (buf, tmp_buf, len);
+	    }
+	}
+      if (iterations++ > 15)
+	{
+	  return U2FH_TIMEOUT_ERROR;
 	}
       if (len == 2 && memcmp (buf, NOTSATISFIED, 2) == 0)
 	{
