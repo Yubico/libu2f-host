@@ -117,7 +117,7 @@ Building
 
 All of the above can be installed in Debian via:
 
- apt-get install pkg-config libjson0-dev libhidapi-hidraw0
+ apt-get install pkg-config libjson0-dev libhidapi-hidraw0 libhidapi-dev
 
 === Instructions
 This project uses autoconf, automake and libtool to achieve
@@ -145,7 +145,7 @@ documentation.  Gengetopt is needed for command line parameter
 handling.  HIDAPI developer files are also required.
 All of the above can be installed in Debian via:
 
- apt-get install gtk-doc-tools libhidapi-dev gengetopt help2man
+ apt-get install gtk-doc-tools gengetopt help2man
 
 Generate the build system using:
 
