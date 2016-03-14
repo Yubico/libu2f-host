@@ -1,5 +1,7 @@
 Copyright (C) 2013-2015 Yubico AB.  Licensed under GPLv3+     . -*- outline -*-
 
+* Version 1.1.2 (unreleased)
+
 * Version 1.1.1 (released 2016-03-14)
 
 ** Use correct index in u2fh_devs_discover()
