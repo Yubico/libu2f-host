@@ -147,22 +147,16 @@ get_usages (struct hid_device_info *dev, unsigned short *usage_page,
 #endif
 }
 
-static void
+static struct u2fdevice *
 close_device (u2fh_devs * devs, struct u2fdevice *dev)
 {
+  struct u2fdevice *next = dev->next;
   hid_close (dev->devh);
   free (dev->device_path);
   free (dev->device_string);
   if (dev == devs->first)
     {
-      if (dev->next)
-	{
-	  devs->first = dev->next;
-	}
-      else
-	{
-	  devs->first = NULL;
-	}
+      devs->first = next;
       free (dev);
     }
   else
@@ -170,14 +164,15 @@ close_device (u2fh_devs * devs, struct u2fdevice *dev)
       struct u2fdevice *d;
       for (d = devs->first; d != NULL; d = d->next)
 	{
-	  struct u2fdevice *next = d->next;
-	  if (next && next == dev)
+	  if (d->next == dev)
 	    {
-	      dev->next = next->next;
-	      free (next);
+	      d->next = next;
+	      free (dev);
+	      break;
 	    }
 	}
     }
+  return next;
 }
 
 struct u2fdevice *
@@ -235,9 +230,7 @@ close_devices (u2fh_devs * devs)
 
   while (dev)
     {
-      struct u2fdevice *next = dev->next;
-      close_device (devs, dev);
-      dev = next;
+      dev = close_device (devs, dev);
     }
 }
 
@@ -342,6 +335,7 @@ u2fh_devs_discover (u2fh_devs * devs, unsigned *max_index)
       int found = 0;
       unsigned short usage_page = 0, usage = 0;
 
+      /* check if we already opened this device */
       for (dev = devs->first; dev != NULL; dev = dev->next)
 	{
 	  if (strcmp (dev->device_path, cur_dev->path) == 0)
@@ -350,7 +344,6 @@ u2fh_devs_discover (u2fh_devs * devs, unsigned *max_index)
 		{
 		  found = 1;
 		  res = U2FH_OK;
-		  break;
 		}
 	      else
 		{
@@ -360,8 +353,8 @@ u2fh_devs_discover (u2fh_devs * devs, unsigned *max_index)
 			       dev->device_path);
 		    }
 		  close_device (devs, dev);
-		  break;
 		}
+	      break;
 	    }
 	}
       if (found)
@@ -420,7 +413,9 @@ u2fh_devs_discover (u2fh_devs * devs, unsigned *max_index)
     }
 
 
-  for (dev = devs->first; dev != NULL; dev = dev->next)
+  /* loop through all open devices and make sure we find them in the enumeration */
+  dev = devs->first;
+  while (dev)
     {
       int found = 0;
 
@@ -429,6 +424,8 @@ u2fh_devs_discover (u2fh_devs * devs, unsigned *max_index)
 	  if (strcmp (cur_dev->path, dev->device_path) == 0)
 	    {
 	      found = 1;
+	      dev = dev->next;
+	      break;
 	    }
 	}
       if (!found)
@@ -437,7 +434,7 @@ u2fh_devs_discover (u2fh_devs * devs, unsigned *max_index)
 	    {
 	      fprintf (stderr, "device %s looks dead.\n", dev->device_path);
 	    }
-	  close_device (devs, dev);
+	  dev = close_device (devs, dev);
 	}
     }
 
