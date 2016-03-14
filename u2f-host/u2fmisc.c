@@ -318,7 +318,7 @@ u2fh_rc
 send_apdu (u2fh_devs * devs, int index, int cmd, const unsigned char *d,
 	   size_t dlen, int p1, unsigned char *out, size_t * outlen)
 {
-  unsigned char data[2048] = {0};
+  unsigned char data[2048] = { 0 };
   int rc;
 
   if (dlen > MAXDATASIZE)
