@@ -132,9 +132,10 @@ main (int argc, char *argv[])
       goto done;
     }
 
-  if(strlen(response)) {
-    printf ("%s\n", response);
-  }
+  if (strlen (response))
+    {
+      printf ("%s\n", response);
+    }
 
   exit_code = EXIT_SUCCESS;
 

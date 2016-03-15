@@ -222,7 +222,7 @@ _u2fh_authenticate (u2fh_devs * devs,
       return U2FH_AUTHENTICATOR_ERROR;
     }
   else if ((flags & U2FH_REQUEST_USER_PRESENCE) == 0
-	   && memcmp (buf, NOTSATISFIED, 2) == 0)
+	   && len == 2 && memcmp (buf, NOTSATISFIED, 2) == 0)
     {
       return U2FH_OK;
     }
