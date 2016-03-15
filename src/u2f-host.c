@@ -126,13 +126,15 @@ main (int argc, char *argv[])
       fprintf (stderr, "error: unknown action.\n");
       goto done;
     }
-  if (rc != U2FH_OK || response == NULL)
+  if (rc != U2FH_OK)
     {
       fprintf (stderr, "error (%d): %s\n", rc, u2fh_strerror (rc));
       goto done;
     }
 
-  printf ("%s\n", response);
+  if(strlen(response)) {
+    printf ("%s\n", response);
+  }
 
   exit_code = EXIT_SUCCESS;
 

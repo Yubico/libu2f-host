@@ -221,6 +221,11 @@ _u2fh_authenticate (u2fh_devs * devs,
     {
       return U2FH_AUTHENTICATOR_ERROR;
     }
+  else if ((flags & U2FH_REQUEST_USER_PRESENCE) == 0
+	   && memcmp (buf, NOTSATISFIED, 2) == 0)
+    {
+      return U2FH_OK;
+    }
   if (len != 2)
     {
       prepare_response (buf, len - 2, bd, challenge, response, response_len);
