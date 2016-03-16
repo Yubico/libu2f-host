@@ -133,7 +133,7 @@ Building from Git
 
 You may check out the sources using Git with the following command:
 
-  $ git clone git://github.com/Yubico/libu2f-host.git
+  $ git clone https://github.com/Yubico/libu2f-host.git
 
 This will create a directory 'libu2f-host'.  Enter the directory:
 
