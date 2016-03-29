@@ -163,12 +163,16 @@ support them fully as well.
 Building Mac binaries can be done using macosx.mk.  The resulting
 binaries have been tested successfully on Mac OS X 10.7 and 10.9.
 
-  $ make -f macosx.mk VERSION=0.0
+  $ make -f macosx.mk VERSION=X.Y.Z
 
 Building Windows binaries can be done using windows.mk.  The resulting
 binaries have been tested successfully on Windows 7 Pro 32-bit.
 
-  $ make -f windows.mk VERSION=0.0
+  $ make -f windows.mk VERSION=X.Y.Z
+
+Both of these require that a release tarball of the project exists in the
+current directory. The value of the VERSION variable must match the version
+on that tarball.
 
 Namespaces
 ----------
