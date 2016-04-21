@@ -1,7 +1,7 @@
-YubiKey NEO Mode Switch
------------------------
+YubiKey Mode Switch
+-------------------
 
-The YubiKey NEO can be mode-switched from the U2F-only mode using
+The YubiKey can be mode-switched from the U2F-only mode using
 libu2f-host by sending some non-standardized commands.
 
   echo -e '\x06\x00\x00\x00' | u2f-host -d -a sendrecv -c c0
@@ -18,7 +18,7 @@ The '\x06' corresponds to mode 6 and the following modes are known:
 
 Add 80 to set MODE_FLAG_EJECT, for example: 81 is mode 1 (CCID-only)
 with MODE_FLAG_EJECT.  To select another mode, replace \x06 with what
-you wish.  For example, if you want to put the NEO into pure OTP-mode
+you wish.  For example, if you want to put the YuiKey into pure OTP-mode
 use the following:
 
   echo -e '\x01\x00\x00\x00' | u2f-host -d -a sendrecv -c c0
