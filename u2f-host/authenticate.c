@@ -18,7 +18,6 @@
 #include <config.h>
 #include "internal.h"
 
-#include <unistd.h>
 #include <json.h>
 #include "b64/cencode.h"
 #include "b64/cdecode.h"
@@ -277,8 +276,9 @@ u2fh_authenticate (u2fh_devs * devs,
 		   const char *challenge,
 		   const char *origin, char **response, u2fh_cmdflags flags)
 {
-  *response = NULL;
   size_t response_len = 0;
+
+  *response = NULL;
   return _u2fh_authenticate (devs, challenge, origin, response, &response_len,
 			     flags);
 }

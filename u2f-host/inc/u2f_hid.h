@@ -21,7 +21,8 @@
 #ifndef __U2FHID_H_INCLUDED__
 #define __U2FHID_H_INCLUDED__
 
-#ifdef _MSC_VER			// Windows
+// Visual studio 2008 and earlier are missing stdint.h
+#if defined(_MSC_VER) && _MSC_VER <= 1500 && !defined(HAVE_STDINT_H)
 typedef unsigned char uint8_t;
 typedef unsigned short uint16_t;
 typedef unsigned int uint32_t;
