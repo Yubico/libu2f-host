@@ -2,16 +2,9 @@ include(CheckIncludeFiles)
 include(CheckFunctionExists) 
 
 # ==========
-# We need stdint.h so include a cross-platform, free version if not already present on system
+# Check for stdint.h presence
 # ==========
 check_include_files(stdint.h HAVE_STDINT_H)
-if(NOT HAVE_STDINT_H)
-	set(STDINT_DIR ${CMAKE_SOURCE_DIR}/../stdint)
-	include_directories(${STDINT_DIR})
-	set(HEADERS_STDINT ${STDINT_DIR}/stdint.h)
-	source_group(headers\\stdint FILES ${HEADERS_STDINT})
-	set(HAVE_STDINT_H 1)
-endif()
 
 # ==========
 # Configure version
