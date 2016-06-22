@@ -1,5 +1,5 @@
 include(CheckIncludeFiles)
-include(CheckFunctionExists) 
+include(CheckFunctionExists)
 
 # ==========
 # Check for stdint.h presence
@@ -43,7 +43,7 @@ source_group(headers\\inc FILES ${HEADERS_INC})
 # ==========
 set(GL_DIR ${CMAKE_SOURCE_DIR}/gl)
 set(SOURCE_GL ${GL_DIR}/sha256.c ${GL_DIR}/check-version.c ${GL_DIR}/strverscmp.c)
-set_source_files_properties(${GL_DIR}/check-version.c PROPERTIES COMPILE_DEFINITIONS VERSION="${VERSION}") 
+set_source_files_properties(${GL_DIR}/check-version.c PROPERTIES COMPILE_DEFINITIONS VERSION="${VERSION}")
 source_group(sources\\gl FILES ${SOURCE_GL})
 include_directories(${GL_DIR})
 set(HEADERS_GL ${GL_DIR}/sha256.h ${GL_DIR}/check-version.h)
