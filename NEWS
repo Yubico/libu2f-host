@@ -1,6 +1,19 @@
 libu2f-host NEWS -- History of user visible changes.
 
-* Version 1.1.2 (unreleased)
+* Version 1.1.2 (released 2016-06-22)
+
+** Make authenticate return U2FH_OK if touch is set to not needed.
+Also minor fixes to error output of authenticate.
+
+** Documentation fixes.
+
+** Compilation fixes on visual studio.
+
+** Add udev rules for Feitian devices.
+
+** Add optional cmake build.
+
+** Change license of the commandline tool to LGPL 2.1+
 
 * Version 1.1.1 (released 2016-03-14)
 
