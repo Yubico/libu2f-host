@@ -22,7 +22,7 @@
 #define __U2F_H_INCLUDED__
 
 // Visual studio 2008 and earlier are missing stdint.h
-#if defined(_MSC_VER) && _MSC_VER <= 1500 && !defined(HAVE_STDINT_H)
+#if defined _MSC_VER && _MSC_VER <= 1500 && !defined HAVE_STDINT_H
 typedef unsigned char uint8_t;
 typedef unsigned short uint16_t;
 typedef unsigned int uint32_t;

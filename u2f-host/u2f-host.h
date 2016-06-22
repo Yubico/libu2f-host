@@ -19,7 +19,7 @@
 #define U2F_HOST_H
 
 // Visual studio 2008 and earlier are missing stdint.h
-#if defined(_MSC_VER) && _MSC_VER <= 1500 && !defined(HAVE_STDINT_H)
+#if defined _MSC_VER && _MSC_VER <= 1500 && !defined HAVE_STDINT_H
 typedef unsigned char uint8_t;
 typedef unsigned short uint16_t;
 typedef unsigned int uint32_t;
@@ -33,7 +33,7 @@ typedef unsigned long int uint64_t;
 #include <u2f-host-version.h>
 #include <u2f-host-types.h>
 
-#if defined(_MSC_VER)
+#if defined _MSC_VER
 #define U2FH_EXPORT __declspec(dllexport)
 #else
 #define U2FH_EXPORT extern
