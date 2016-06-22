@@ -1,5 +1,7 @@
 libu2f-host NEWS -- History of user visible changes.
 
+* Version 1.1.3 (unreleased)
+
 * Version 1.1.2 (released 2016-06-22)
 
 ** Make authenticate return U2FH_OK if touch is set to not needed.
