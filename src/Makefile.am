@@ -35,7 +35,7 @@ MAINTAINERCLEANFILES = $(BUILT_SOURCES)
 dist_man_MANS = u2f-host.1
 DISTCLEANFILES = $(dist_man_MANS)
 
-u2f-host.1: $(srcdir)/u2f-host.c $(srcdir)/cmdline.ggo $(top_srcdir)/configure.ac
+u2f-host.1: $(srcdir)/u2f-host.c $(srcdir)/cmdline.ggo $(top_srcdir)/configure.ac | $(builddir)/u2f-host$(EXEEXT)
 	$(AM_V_GEN)$(HELP2MAN) \
 		--output=$@ $(builddir)/u2f-host$(EXEEXT) \
 		--name="Yubico Universal 2nd Factor (U2F) Host Tool" \
