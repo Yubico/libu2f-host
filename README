@@ -165,8 +165,9 @@ binaries have been tested successfully on Mac OS X 10.7 and 10.9.
 
   $ make -f macosx.mk VERSION=X.Y.Z
 
-Building Windows binaries can be done using windows.mk.  The resulting
-binaries have been tested successfully on Windows 7 Pro 32-bit.
+Windows binaries can be cross-compiled using windows.mk.  For this to
+work the packages wine, mingw-w64 and mingw-w64-dev are required.  The
+resulting binaries have been tested successfully on Windows 7 Pro 32-bit.
 
   $ make -f windows.mk VERSION=X.Y.Z
 
