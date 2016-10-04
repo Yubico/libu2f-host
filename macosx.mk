@@ -65,6 +65,8 @@ doit:
 	install_name_tool -change $(PWD)/tmp/root/lib/libhidapi.0.dylib @executable_path/../lib/libhidapi.0.dylib $$executable ; \
 	install_name_tool -change $(PWD)/tmp/root/lib/libu2f-host.0.dylib @executable_path/../lib/libu2f-host.0.dylib $$executable ; \
 	done && \
+	rm $(PWD)/tmp/root/lib/*.la && \
+	rm -rf $(PWD)/tmp/root/lib/pkgconfig && \
 	cp COPYING $(PWD)/tmp$(ARCH)/root/licenses/$(PACKAGE).txt && \
 	cd .. && \
 	cd root && \
