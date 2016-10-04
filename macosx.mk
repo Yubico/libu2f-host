@@ -14,7 +14,7 @@
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 LIBJSONVERSION=0.11
-HIDAPIHASH=ab67d0e3db50b9777fa6f2adc576dec992fb3fae
+HIDAPIHASH=a6a622ffb680c55da0de787ff93b80280498330f
 PACKAGE=libu2f-host
 
 all: usage doit
@@ -40,7 +40,7 @@ doit:
 	make install check && \
 	cp COPYING $(PWD)/tmp$(ARCH)/root/licenses/json-c.txt && \
 	cd .. && \
-	git clone https://github.com/mrpippy/hidapi.git && \
+	git clone https://github.com/signal11/hidapi.git && \
 	cd hidapi && \
 	git checkout $(HIDAPIHASH) && \
 	./bootstrap && \
