@@ -1,6 +1,10 @@
 libu2f-host NEWS -- History of user visible changes.
 
-* Version 1.1.3 (unreleased)
+* Version 1.1.3 (released 2016-10-04)
+
+** Added more u2f devices to the udev rulesets.
+
+** Fixup mac builds.
 
 * Version 1.1.2 (released 2016-06-22)
 
