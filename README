@@ -11,7 +11,7 @@ device and perform the U2F Register and U2F Authenticate operations.
 License
 -------
 
-The library and command-ine tool is licensed under the LGPLv2+ license.
+The library and command-line tool is licensed under the LGPLv2+ license.
 Some other files are licensed under the GPLv3+ license.  The license for
 each file should be clear from the comments at the top of it.  See the
 files COPYING (for GPLv3) and COPYING.LGPLv2 for complete license texts.
