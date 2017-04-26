@@ -56,7 +56,7 @@ struct u2fh_devs
 
 extern int debug;
 
-#define MAXDATASIZE 1024
+#define MAXDATASIZE 16384
 
 #define MAXFIXEDLEN 1024
 
