@@ -43,4 +43,7 @@ KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1a44", ATTRS{idProduct
 # Bluink Key
 KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="2abe", ATTRS{idProduct}=="1002", TAG+="uaccess"
 
+# FIDO U2F Security Key
+KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="4176", ATTRS{idProduct}=="288", TAG+="uaccess"
+
 LABEL="u2f_end"
