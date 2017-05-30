@@ -25,6 +25,7 @@
 #include <string.h>
 
 #include "cmdline.h"
+#include "inc/u2f_hid.h"
 
 int
 main (int argc, char *argv[])
@@ -104,6 +105,24 @@ main (int argc, char *argv[])
 				   args_info.touch_flag ? 0 :
 				   U2FH_REQUEST_USER_PRESENCE);
 	}
+      break;
+    case action_arg_wink:
+      {
+	unsigned char out[2048];
+	size_t outlen = sizeof (out);
+	rc =
+	  u2fh_sendrecv (devs, 0, U2FHID_WINK, challenge, chal_len, out,
+			 &outlen);
+      }
+      break;
+    case action_arg_ping:
+      {
+	unsigned char out[2048];
+	size_t outlen = sizeof (out);
+	rc =
+	  u2fh_sendrecv (devs, 0, U2FHID_PING, challenge, chal_len, out,
+			 &outlen);
+      }
       break;
     case action_arg_sendrecv:
       {

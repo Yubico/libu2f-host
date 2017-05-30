@@ -44,6 +44,39 @@ dumpHex (unsigned char *data, int offs, int len)
   fprintf (stderr, "\n");
 }
 
+static int write_frame(struct u2fdevice *dev, U2FHID_FRAME *frame)
+{
+    int len;
+    unsigned char data[sizeof (U2FHID_FRAME) + 1];
+    /* FIXME: add report as first byte, is report 0 correct? */
+    data[0] = 0;
+    memcpy (data + 1, frame, sizeof (U2FHID_FRAME));
+
+    if (debug)
+      {
+        fprintf (stderr, "USB send: ");
+        dumpHex (data, 0, sizeof (U2FHID_FRAME));
+      }
+
+    len = hid_write (dev->devh, data, sizeof (U2FHID_FRAME) + 1);
+    if (debug)
+      fprintf (stderr, "USB write returned %d\n", len);
+    if (len < 0)
+      return U2FH_TRANSPORT_ERROR;
+    if (sizeof (U2FHID_FRAME) + 1 != len)
+      return U2FH_TRANSPORT_ERROR;
+    return 0;
+}
+
+static void init_frame(U2FHID_FRAME *frame, struct u2fdevice *dev,
+            uint8_t cmd, uint16_t sendlen)
+{
+    frame->cid = dev->cid;
+    frame->init.cmd = cmd;
+    frame->init.bcnth = (sendlen >> 8) & 0xff;
+    frame->init.bcntl = sendlen & 0xff;
+}
+
 int
 prepare_browserdata (const char *challenge, const char *origin,
 		     const char *typstr, char *out, size_t * outlen)
@@ -162,6 +195,13 @@ u2fh_sendrecv (u2fh_devs * devs, unsigned index, uint8_t cmd,
       return U2FH_NO_U2F_DEVICE;
     }
 
+  if (sendlen == 0)
+     {
+        U2FHID_FRAME frame = { 0 };
+        init_frame(&frame, dev, cmd, sendlen);
+        write_frame(dev, &frame);
+     }
+
   while (sendlen > datasent)
     {
       U2FHID_FRAME frame = { 0 };
@@ -172,9 +212,7 @@ u2fh_sendrecv (u2fh_devs * devs, unsigned index, uint8_t cmd,
 	frame.cid = dev->cid;
 	if (datasent == 0)
 	  {
-	    frame.init.cmd = cmd;
-	    frame.init.bcnth = (sendlen >> 8) & 0xff;
-	    frame.init.bcntl = sendlen & 0xff;
+        init_frame(&frame, dev, cmd, sendlen);
 	    data = frame.init.data;
 	    maxlen = sizeof (frame.init.data);
 	  }
@@ -193,24 +231,7 @@ u2fh_sendrecv (u2fh_devs * devs, unsigned index, uint8_t cmd,
       }
 
       {
-	unsigned char data[sizeof (U2FHID_FRAME) + 1];
-	int len;
-	/* FIXME: add report as first byte, is report 0 correct? */
-	data[0] = 0;
-	memcpy (data + 1, &frame, sizeof (U2FHID_FRAME));
-	if (debug)
-	  {
-	    fprintf (stderr, "USB send: ");
-	    dumpHex (data, 0, sizeof (U2FHID_FRAME));
-	  }
-
-	len = hid_write (dev->devh, data, sizeof (U2FHID_FRAME) + 1);
-	if (debug)
-	  fprintf (stderr, "USB write returned %d\n", len);
-	if (len < 0)
-	  return U2FH_TRANSPORT_ERROR;
-	if (sizeof (U2FHID_FRAME) + 1 != len)
-	  return U2FH_TRANSPORT_ERROR;
+    write_frame(dev, &frame);
       }
     }
 
