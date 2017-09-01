@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-AC_INIT([libu2f-host], [1.1.4], [yubico-devel@googlegroups.com])
+AC_INIT([libu2f-host], [1.1.5], [yubico-devel@googlegroups.com])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_AUX_DIR([build-aux])
@@ -21,7 +21,7 @@ AC_CONFIG_AUX_DIR([build-aux])
 # http://www.gnu.org/s/libtool/manual/html_node/Updating-version-info.html
 AC_SUBST(LT_CURRENT, 1)  # Interfaces removed:    CURRENT++, AGE=0, REVISION=0
 AC_SUBST(LT_AGE, 1)      # Interfaces added:      CURRENT++, AGE++, REVISION=0
-AC_SUBST(LT_REVISION, 4) # No interfaces changed:                   REVISION++
+AC_SUBST(LT_REVISION, 5) # No interfaces changed:                   REVISION++
 
 AM_INIT_AUTOMAKE([gnits dist-xz no-dist-gzip std-options -Wall])
 AM_SILENT_RULES([yes])

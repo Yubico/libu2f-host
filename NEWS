@@ -1,5 +1,7 @@
 libu2f-host NEWS -- History of user visible changes.
 
+* Version 1.1.5 (unreleased)
+
 * Version 1.1.4 (released 2017-09-01)
 
 ** Added more u2f devices to the udev rulesets.
