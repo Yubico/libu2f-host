@@ -55,9 +55,9 @@ prepare_response2 (const char *encstr, const char *bdstr, const char *input,
   if (jo == NULL)
     goto done;
 
-  json_object_object_add (jo, "signatureData", enc);
-  json_object_object_add (jo, "clientData", bd);
-  json_object_object_add (jo, "keyHandle", key);
+  json_object_object_add (jo, "signatureData", json_object_get (enc));
+  json_object_object_add (jo, "clientData", json_object_get (bd));
+  json_object_object_add (jo, "keyHandle", json_object_get (key));
 
   reply = json_object_to_json_string (jo);
   if (*response == NULL)
@@ -82,12 +82,9 @@ prepare_response2 (const char *encstr, const char *bdstr, const char *input,
 
 done:
   json_object_put (jo);
-  if (!jo)
-    {
-      json_object_put (enc);
-      json_object_put (bd);
-      json_object_put (key);
-    }
+  json_object_put (enc);
+  json_object_put (bd);
+  json_object_put (key);
 
   return rc;
 }

@@ -41,8 +41,8 @@ prepare_response2 (const char *respstr, const char *bdstr, char **response,
   if (jo == NULL)
     goto done;
 
-  json_object_object_add (jo, "registrationData", resp);
-  json_object_object_add (jo, "clientData", bd);
+  json_object_object_add (jo, "registrationData", json_object_get (resp));
+  json_object_object_add (jo, "clientData", json_object_get (bd));
 
   reply = json_object_to_json_string (jo);
   if (*response == NULL)
@@ -67,11 +67,8 @@ prepare_response2 (const char *respstr, const char *bdstr, char **response,
 
 done:
   json_object_put (jo);
-  if (!jo)
-    {
-      json_object_put (resp);
-      json_object_put (bd);
-    }
+  json_object_put (resp);
+  json_object_put (bd);
 
   return rc;
 }

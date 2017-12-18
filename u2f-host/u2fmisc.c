@@ -70,9 +70,9 @@ prepare_browserdata (const char *challenge, const char *origin,
   if (jo == NULL)
     goto done;
 
-  json_object_object_add (jo, "challenge", chal);
-  json_object_object_add (jo, "origin", orig);
-  json_object_object_add (jo, "typ", typ);
+  json_object_object_add (jo, "challenge", json_object_get (chal));
+  json_object_object_add (jo, "origin", json_object_get (orig));
+  json_object_object_add (jo, "typ", json_object_get (typ));
 
   if (debug)
     {
@@ -93,12 +93,10 @@ prepare_browserdata (const char *challenge, const char *origin,
 
 done:
   json_object_put (jo);
-  if (!jo)
-    {
-      json_object_put (chal);
-      json_object_put (orig);
-      json_object_put (typ);
-    }
+  json_object_put (chal);
+  json_object_put (orig);
+  json_object_put (typ);
+
   return rc;
 }
 
