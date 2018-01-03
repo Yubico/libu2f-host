@@ -6,7 +6,7 @@ notify 100 {
 	match "subsystem"	"DEVICE";
 	match "type"		"ATTACH";
 	match "vendor"		"0x1050";
-	match "product"		"(0x0113|0x0114|0x0115|0x0116|0x0120|0x0420|0x0403|0x0406|0x0407|0x0410)";
+	match "product"		"(0x0113|0x0114|0x0115|0x0116|0x0120|0x0200|0x0420|0x0403|0x0406|0x0407|0x0410)";
 	action	"chgrp u2f /dev/$cdev; chmod g+rw /dev/$cdev";
 };
 
@@ -87,5 +87,15 @@ notify 100 {
 	match "type"		"ATTACH";
 	match "vendor"		"0x2abe";
 	match "product"		"0x1002";
+	action "chgrp u2f /dev/$cdev; chmod g+rw /dev/$cdev";
+};
+
+# Thetis Key
+notify 100 {
+	match "system"		"USB";
+	match "subsystem"	"DEVICE";
+	match "type"		"ATTACH";
+	match "vendor"		"0x1ea8";
+	match "product"		"0xf025";
 	action "chgrp u2f /dev/$cdev; chmod g+rw /dev/$cdev";
 };
