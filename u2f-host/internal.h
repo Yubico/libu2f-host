@@ -63,6 +63,8 @@ extern int debug;
 #define REGISTER_TYP "navigator.id.finishEnrollment"
 #define AUTHENTICATE_TYP "navigator.id.getAssertion"
 
+#define CTAPHID_KEEPALIVE        (TYPE_INIT | 0x3b)	// Keepalive response
+
 int prepare_browserdata (const char *challenge, const char *origin,
 			 const char *typstr, char *out, size_t * outlen);
 int prepare_origin (const char *origin, unsigned char *p);
