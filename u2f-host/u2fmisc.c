@@ -222,37 +222,44 @@ u2fh_sendrecv (u2fh_devs * devs, unsigned index, uint8_t cmd,
     int timeout = HID_TIMEOUT;
     int rc = 0;
 
-    while (rc == 0)
+    do
       {
+	timeout = HID_TIMEOUT;
+	rc = 0;
+
+	while (rc == 0)
+	  {
+	    if (debug)
+	      {
+		fprintf (stderr, "now trying with timeout %d\n", timeout);
+	      }
+	    rc = hid_read_timeout (dev->devh, data, len, timeout);
+	    timeout *= 2;
+	    if (timeout > HID_MAX_TIMEOUT)
+	      {
+		rc = -2;
+		break;
+	      }
+	  }
+
 	if (debug)
 	  {
-	    fprintf (stderr, "now trying with timeout %d\n", timeout);
+	    fprintf (stderr, "USB read rc read %d\n", len);
+	    if (rc > 0)
+	      {
+		fprintf (stderr, "USB recv: ");
+		dumpHex (data, 0, rc);
+	      }
 	  }
-	rc = hid_read_timeout (dev->devh, data, len, timeout);
-	timeout *= 2;
-	if (timeout > HID_MAX_TIMEOUT)
+	if (rc < 0)
 	  {
-	    rc = -2;
-	    break;
+	    return U2FH_TRANSPORT_ERROR;
 	  }
-      }
-    sequence = 0;
 
-    if (debug)
-      {
-	fprintf (stderr, "USB read rc read %d\n", len);
-	if (rc > 0)
-	  {
-	    fprintf (stderr, "USB recv: ");
-	    dumpHex (data, 0, rc);
-	  }
+	memcpy (&frame, data, HID_RPT_SIZE);
       }
-    if (rc < 0)
-      {
-	return U2FH_TRANSPORT_ERROR;
-      }
+    while (frame.cid == dev->cid && frame.init.cmd == CTAPHID_KEEPALIVE);
 
-    memcpy (&frame, data, HID_RPT_SIZE);
     if (frame.cid != dev->cid || frame.init.cmd != cmd)
       {
 	return U2FH_TRANSPORT_ERROR;
@@ -265,6 +272,7 @@ u2fh_sendrecv (u2fh_devs * devs, unsigned index, uint8_t cmd,
     memcpy (recv, frame.init.data, sizeof (frame.init.data));
     recvddata = sizeof (frame.init.data);
 
+    sequence = 0;
     while (datalen > recvddata)
       {
 	timeout = HID_TIMEOUT;
