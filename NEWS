@@ -1,5 +1,7 @@
 libu2f-host NEWS -- History of user visible changes.
 
+* Version 1.1.6 (unreleased)
+
 * Version 1.1.5 (released 2018-03-07)
 
 ** Fix refcount when adding json_objects.
