@@ -1,5 +1,7 @@
 libu2f-host NEWS -- History of user visible changes.
 
+* Version 1.1.7 (unreleased)
+
 * Version 1.1.6 (released 2018-05-15)
 
 ** Change waiting logic on authenticate to allow for faster feedback.
