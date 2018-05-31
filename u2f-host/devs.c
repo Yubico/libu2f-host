@@ -171,6 +171,7 @@ close_device (u2fh_devs * devs, struct u2fdevice *dev)
 	    }
 	}
     }
+  devs->max_id--;
   return next;
 }
 
