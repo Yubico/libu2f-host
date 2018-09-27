@@ -6,7 +6,9 @@ Introduction
 
 Libu2f-host provides a C library and command-line tool that implements
 the host-side of the U2F protocol.  There are APIs to talk to a U2F
-device and perform the U2F Register and U2F Authenticate operations.
+device and perform the U2F Register and U2F Authenticate operations. 
+For the server-side aspect, see our
+https://developers.yubico.com/libu2f-server/[libu2f-server project].
 
 License
 -------
@@ -33,7 +35,7 @@ testing.  We describe how you could use it here.
 First get a _register_ challenge JSON blob somehow.  You could use the
 https://demo.yubico.com/u2f[Yubico U2F demo server] interactively in a browser (with the U2F
 extension disabled).  Alternatively,
-use the WSAPI.  For example:
+use the WSAPI or https://github.com/Yubico/libu2f-server[our server-side library].  For example:
 
  $ curl 'https://demo.yubico.com/wsapi/u2f/enroll?username=jas&password=foo' > foo
 
