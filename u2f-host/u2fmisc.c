@@ -80,7 +80,7 @@ prepare_browserdata (const char *challenge, const char *origin,
     }
 
   buf = json_object_to_json_string (jo);
-  len = strlen (buf);
+  len = strnlen (buf, (*outlen) + 1);
   if (len >= *outlen)
     {
       rc = U2FH_MEMORY_ERROR;
@@ -396,7 +396,7 @@ get_fixed_json_data (const char *jsonstr, const char *key, char *p,
   if (debug)
     fprintf (stderr, "JSON %s URL-B64: %s\n", key, urlb64);
 
-  if (strlen (urlb64) >= *len)
+  if (strnlen (urlb64, (*len) + 1) >= *len)
     {
       return U2FH_JSON_ERROR;
     }

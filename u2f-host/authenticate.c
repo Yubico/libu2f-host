@@ -66,7 +66,7 @@ prepare_response2 (const char *encstr, const char *bdstr, const char *input,
     }
   else
     {
-      if (strlen (reply) >= *response_len)
+      if (strnlen (reply, (*response_len) + 1) >= *response_len)
 	{
 	  rc = U2FH_SIZE_ERROR;
 	  *response_len = strlen (reply) + 1;
@@ -100,7 +100,7 @@ prepare_response (const unsigned char *buf, int len, const char *bd,
 
   if (len > 2048)
     return U2FH_MEMORY_ERROR;
-  if (strlen (bd) > 2048)
+  if (strnlen (bd, 2048 + 1) > 2048)
     return U2FH_MEMORY_ERROR;
 
   base64_init_encodestate (&b64ctx);
