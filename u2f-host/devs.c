@@ -247,6 +247,10 @@ init_device (u2fh_devs * devs, struct u2fdevice *dev)
        &resplen) == U2FH_OK)
     {
       U2FHID_INIT_RESP initresp;
+      if (resplen > sizeof (initresp))
+	{
+	  return U2FH_MEMORY_ERROR;
+	}
       memcpy (&initresp, resp, resplen);
       dev->cid = initresp.cid;
       dev->versionInterface = initresp.versionInterface;
