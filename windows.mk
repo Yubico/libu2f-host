@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-LIBJSONVERSION=0.11
+LIBJSONVERSION=0.13.1
 HIDAPIHASH=0cbc3a409bcb45cefb3edbf144d64ddd4e0821ce
 PACKAGE=libu2f-host
 

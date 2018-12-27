@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-LIBJSONVERSION=0.11
+LIBJSONVERSION=0.12.1
 HIDAPIHASH=a6a622ffb680c55da0de787ff93b80280498330f
 PACKAGE=libu2f-host
 
@@ -54,8 +54,6 @@ doit:
 	PKG_CONFIG_PATH=$(PWD)/tmp$(ARCH)/root/lib/pkgconfig ./configure --prefix=$(PWD)/tmp$(ARCH)/root CFLAGS=-mmacosx-version-min=10.6 && \
 	make install check && \
 	install_name_tool -id @executable_path/../lib/libjson-c.2.dylib $(PWD)/tmp/root/lib/libjson-c.2.dylib && \
-	install_name_tool -id @executable_path/../lib/libjson.0.dylib $(PWD)/tmp/root/lib/libjson.0.dylib && \
-	install_name_tool -change $(PWD)/tmp/root/lib/libjson-c.2.dylib @executable_path/../lib/libjson-c.2.dylib $(PWD)/tmp/root/lib/libjson.dylib && \
 	install_name_tool -id @executable_path/../lib/libhidapi.0.dylib $(PWD)/tmp/root/lib/libhidapi.0.dylib && \
 	install_name_tool -id @executable_path/../lib/libu2f-host.0.dylib $(PWD)/tmp/root/lib/libu2f-host.0.dylib && \
 	install_name_tool -change $(PWD)/tmp/root/lib/libjson-c.2.dylib @executable_path/../lib/libjson-c.2.dylib $(PWD)/tmp/root/lib/libu2f-host.0.dylib && \
