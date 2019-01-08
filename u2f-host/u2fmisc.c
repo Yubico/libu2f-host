@@ -312,6 +312,10 @@ u2fh_sendrecv (u2fh_devs * devs, unsigned index, uint8_t cmd,
 		     frame.cont.seq, sequence);
 	    return U2FH_TRANSPORT_ERROR;
 	  }
+	if (recvddata + sizeof (frame.cont.data) > maxlen)
+	  {
+	    return U2FH_TRANSPORT_ERROR;
+	  }
 	memcpy (recv + recvddata, frame.cont.data, sizeof (frame.cont.data));
 	recvddata += sizeof (frame.cont.data);
       }
