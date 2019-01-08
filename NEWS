@@ -1,5 +1,7 @@
 libu2f-host NEWS -- History of user visible changes.
 
+* Version 1.1.8 (unreleased)
+
 * Version 1.1.7 (released 2019-01-08)
 
 ** Fix for trusting length from deivce in device init.
