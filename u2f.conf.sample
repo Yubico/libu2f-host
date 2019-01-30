@@ -56,7 +56,7 @@ notify 100 {
 	match "subsystem"	"DEVICE";
 	match "type"		"ATTACH";
 	match "vendor"		"0x24dc";
-	match "product"		"0x0101";
+	match "product"		"0x0101|0x0501";
 	action "chgrp u2f /dev/$cdev; chmod g+rw /dev/$cdev";
 };
 
