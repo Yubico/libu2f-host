@@ -98,6 +98,14 @@ AC_ARG_WITH([udevrulesdir],
   [], [])
 AC_SUBST([udevrulesdir], [$with_udevrulesdir])
 
+dnl check for random device
+AC_CACHE_CHECK(for random device, ac_cv_have_dev_random,
+[if test -r "/dev/urandom" ; then
+  ac_cv_have_dev_random=yes; else ac_cv_have_dev_random=no; fi])
+if test "$ac_cv_have_dev_random" = yes; then
+  AC_DEFINE([HAVE_DEV_URANDOM], 1, [Discovered a random device])
+fi
+
 PKG_CHECK_MODULES([UDEV], [udev >= 188],
                   udevrulesfile=70-u2f.rules,
                   udevrulesfile=70-old-u2f.rules,

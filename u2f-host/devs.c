@@ -19,10 +19,25 @@
 #include "internal.h"
 
 #include <stdlib.h>
-#ifdef __linux
+
+#ifdef _WIN32
+#include <windows.h>
+#include <winternl.h>
+#include <winerror.h>
+#include <stdio.h>
+#include <bcrypt.h>
+#include <sal.h>
+
+#pragma comment(lib, "bcrypt.lib")
+
+#else
+#include <unistd.h>
 #include <string.h>
 #include <sys/ioctl.h>
-#include <sys/fcntl.h>
+#include <fcntl.h>
+#endif
+
+#ifdef __linux
 #include <linux/hidraw.h>
 #endif
 
@@ -233,12 +248,53 @@ close_devices (u2fh_devs * devs)
     }
 }
 
+#if defined(_WIN32)
+static int
+obtain_nonce(unsigned char* nonce)
+{
+  NTSTATUS status;
+
+  status = BCryptGenRandom(NULL, nonce, 8,
+			   BCRYPT_USE_SYSTEM_PREFERRED_RNG);
+
+  if (!NT_SUCCESS(status))
+    return (-1);
+
+  return (0);
+}
+#elif defined(HAVE_DEV_URANDOM)
+static int
+obtain_nonce(unsigned char* nonce)
+{
+  int     fd = -1;
+  int     ok = -1;
+  ssize_t r;
+
+  if ((fd = open("/dev/urandom", O_RDONLY)) < 0)
+    goto fail;
+  if ((r = read(fd, nonce, 8)) < 0 || r != 8)
+    goto fail;
+
+  ok = 0;
+ fail:
+  if (fd != -1)
+    close(fd);
+
+  return (ok);
+}
+#else
+#error "please provide an implementation of obtain_nonce() for your platform"
+#endif /* _WIN32 */
+
 static int
 init_device (u2fh_devs * devs, struct u2fdevice *dev)
 {
   unsigned char resp[1024];
-  /* FIXME: use something slightly more random as nonce */
-  unsigned char nonce[] = { 0x8, 0x7, 0x6, 0x5, 0x4, 0x3, 0x2, 0x1 };
+  unsigned char nonce[8];
+  if (obtain_nonce(nonce) != 0)
+    {
+      return U2FH_TRANSPORT_ERROR;
+    }
   size_t resplen = sizeof (resp);
   dev->cid = CID_BROADCAST;
 
