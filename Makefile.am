@@ -23,7 +23,7 @@ EXTRA_DIST = BLURB cfg.mk macosx.mk windows.mk COPYING.LGPLv2
 
 EXTRA_DIST += doc/Mode_switch_YubiKey.adoc
 
-EXTRA_DIST += 70-u2f.rules 70-old-u2f.rules
+EXTRA_DIST += 70-u2f.rules
 udevrulesdir = @udevrulesdir@
 dist_udevrules_DATA = $(udevrulesfile)
 
