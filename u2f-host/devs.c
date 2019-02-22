@@ -302,17 +302,29 @@ init_device (u2fh_devs * devs, struct u2fdevice *dev)
       (devs, dev->id, U2FHID_INIT, nonce, sizeof (nonce), resp,
        &resplen) == U2FH_OK)
     {
-      U2FHID_INIT_RESP initresp;
-      if (resplen > sizeof (initresp))
+      int offs = sizeof (nonce);
+      /* the response has to be atleast 17 bytes, if it's more we discard that */
+      if (resplen < 17)
 	{
-	  return U2FH_MEMORY_ERROR;
+	  return U2FH_SIZE_ERROR;
 	}
-      memcpy (&initresp, resp, resplen);
-      dev->cid = initresp.cid;
-      dev->versionInterface = initresp.versionInterface;
-      dev->versionMajor = initresp.versionMajor;
-      dev->versionMinor = initresp.versionMinor;
-      dev->capFlags = initresp.capFlags;
+
+      /* incoming and outgoing nonce has to match */
+      if (memcmp (nonce, resp, sizeof (nonce)) != 0)
+	{
+	  return U2FH_TRANSPORT_ERROR;
+	}
+
+      dev->cid =
+	resp[offs] << 24 | resp[offs + 1] << 16 | resp[offs +
+						       2] << 8 | resp[offs +
+								      3];
+      offs += 4;
+      dev->versionInterface = resp[offs++];
+      dev->versionMajor = resp[offs++];
+      dev->versionMinor = resp[offs++];
+      dev->versionBuild = resp[offs++];
+      dev->capFlags = resp[offs++];
     }
   else
     {
