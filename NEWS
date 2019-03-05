@@ -1,5 +1,7 @@
 libu2f-host NEWS -- History of user visible changes.
 
+* Version 1.1.9 (unreleased)
+
 * Version 1.1.8 (released 2019-03-05)
 
 ** Add udev rules.
