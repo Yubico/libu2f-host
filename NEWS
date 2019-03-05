@@ -1,6 +1,16 @@
 libu2f-host NEWS -- History of user visible changes.
 
-* Version 1.1.8 (unreleased)
+* Version 1.1.8 (released 2019-03-05)
+
+** Add udev rules.
+
+** Drop 70-old-u2f.rules and use 70-u2f.rules for everything.
+
+** Use a random nonce for setting up CID to prevent fingerprinting.
+
+** Parse the response to init in a more stable way.
+The old parser could leak 4 bytes of uninitialized stack back to the device.
+Reported by Christian Reitter.
 
 * Version 1.1.7 (released 2019-01-08)
 
