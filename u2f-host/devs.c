@@ -248,7 +248,7 @@ close_devices (u2fh_devs * devs)
     }
 }
 
-#if defined(_WIN32)
+#ifdef _WIN32
 static int
 obtain_nonce(unsigned char* nonce)
 {
