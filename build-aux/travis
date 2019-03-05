@@ -1,22 +1,23 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 set -x
 
-HERE=$PWD
-cd /tmp
-
+pushd /tmp
 export PKG_CONFIG_PATH=/tmp/hidapi/pc:$PKG_CONFIG_PATH
 git clone git://github.com/signal11/hidapi.git
 cd hidapi
 ./bootstrap && ./configure && make && sudo make install
 sudo ldconfig
+popd
 
-cd $HERE
-
-autoreconf -i && ./configure && make check
+autoreconf -i
+./configure
+make syntax-check
 
 if [ "x$ARCH" != "x" ]; then
     make dist
     make -f windows.mk ${ARCH}bit VERSION=$version EXTRA=""
+else
+    make check
 fi
