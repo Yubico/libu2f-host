@@ -315,10 +315,8 @@ init_device (u2fh_devs * devs, struct u2fdevice *dev)
 	  return U2FH_TRANSPORT_ERROR;
 	}
 
-      dev->cid =
-	resp[offs] << 24 | resp[offs + 1] << 16 | resp[offs +
-						       2] << 8 | resp[offs +
-								      3];
+
+      memcpy((uint8_t*)&dev->cid, resp + offs, sizeof(dev->cid));
       offs += 4;
       dev->versionInterface = resp[offs++];
       dev->versionMajor = resp[offs++];
