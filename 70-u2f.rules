@@ -55,4 +55,7 @@ KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="18d1", ATTRS{idProduct
 # Tomu board + chopstx U2F
 KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="cdab", TAG+="uaccess", GROUP="plugdev", MODE="0660"
 
+# SoloKeys
+KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="a2ca", TAG+="uaccess", GROUP="plugdev", MODE="0660"
+
 LABEL="u2f_end"
