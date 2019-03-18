@@ -33,7 +33,7 @@ main (int argc, char *argv[])
   struct gengetopt_args_info args_info;
   char challenge[BUFSIZ];
   size_t chal_len;
-  char response[2048];
+  char response[2048] = {0};
   size_t response_len = sizeof (response);
   u2fh_devs *devs = NULL;
   u2fh_cmdflags flags = 0;
