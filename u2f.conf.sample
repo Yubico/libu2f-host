@@ -120,12 +120,22 @@ notify 100 {
 	action "chgrp u2f /dev/$cdev; chmod g+rw /dev/$cdev";
 };
 
-# Tomu board + chopstx U2F
+# Tomu board + chopstx U2F + SoloKeys
 notify 100 {
 	match "system"		"USB";
 	match "subsystem"	"DEVICE";
 	match "type"		"ATTACH";
 	match "vendor"		"0x0483";
-	match "product"		"0xcdab";
+	match "product"		"(0xcdab|0xa2ca)";
+	action "chgrp u2f /dev/$cdev; chmod g+rw /dev/$cdev";
+};
+
+# SoloKeys
+notify 100 {
+	match "system"		"USB";
+	match "subsystem"	"DEVICE";
+	match "type"		"ATTACH";
+	match "vendor"		"0x1209";
+	match "product"		"(0x5070|0x50b0)";
 	action "chgrp u2f /dev/$cdev; chmod g+rw /dev/$cdev";
 };
