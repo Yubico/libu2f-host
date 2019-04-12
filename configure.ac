@@ -51,6 +51,17 @@ LIBS=$am_save_LIBS
 PKG_CHECK_MODULES([HIDAPI], [hidapi], [], [
   PKG_CHECK_MODULES([HIDAPI], [hidapi-hidraw])])
 
+AC_ARG_ENABLE([libnfc],
+  AS_HELP_STRING([--disable-libnfc], [Disable LibNFC @<:@default=yes@:>@]))
+if test "x$enable_libnfc" != "xno"; then
+  PKG_CHECK_MODULES([LIBNFC], [libnfc], [], [])
+  AC_DEFINE([FEATURE_LIBNFC], 1, [LibNFC enabled.])
+  FEATURE_LIBNFC=1
+else
+  FEATURE_LIBNFC=0
+fi
+AC_SUBST(FEATURE_LIBNFC)
+
 gl_INIT
 
 AC_ARG_ENABLE([gcc-warnings],
