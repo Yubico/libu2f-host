@@ -55,23 +55,42 @@ extern "C"
   U2FH_EXPORT u2fh_rc u2fh_devs_discover (u2fh_devs * devs, unsigned *max_index);
   U2FH_EXPORT void u2fh_devs_done (u2fh_devs * devs);
 
-  U2FH_EXPORT u2fh_rc u2fh_register (u2fh_devs * devs,
-				const char *challenge,
-				const char *origin,
-				char **response, u2fh_cmdflags flags);
+#ifdef FEATURE_LIBNFC
+  U2FH_EXPORT u2fh_rc u2fh_nfc_devs_init (u2fh_nfc_devs **devices);
+  U2FH_EXPORT u2fh_rc u2fh_nfc_devs_discover (u2fh_nfc_devs *devices);
+  U2FH_EXPORT struct u2fnfcdevice *get_nfc_device (u2fh_nfc_devs *devices);
+  U2FH_EXPORT void u2fh_nfc_devs_done (u2fh_nfc_devs *devices);
+#endif
+
+   U2FH_EXPORT u2fh_rc
+   u2fh_register (u2fh_devs *devs,
+#ifdef FEATURE_LIBNFC
+                  u2fh_nfc_devs *nfc_devs,
+#endif
+                  const char *challenge, const char *origin,
+                  char **response, u2fh_cmdflags flags);
 
   U2FH_EXPORT u2fh_rc u2fh_register2 (u2fh_devs * devs,
+#ifdef FEATURE_LIBNFC
+                                 u2fh_nfc_devs *nfc_devs,
+#endif
 				 const char *challenge,
 				 const char *origin,
 				 char *response, size_t * response_len,
 				 u2fh_cmdflags flags);
 
   U2FH_EXPORT u2fh_rc u2fh_authenticate (u2fh_devs * devs,
+#ifdef FEATURE_LIBNFC
+                    u2fh_nfc_devs *nfc_devs,
+#endif
 				    const char *challenge,
 				    const char *origin,
 				    char **response, u2fh_cmdflags flags);
 
   U2FH_EXPORT u2fh_rc u2fh_authenticate2 (u2fh_devs * devs,
+#ifdef FEATURE_LIBNFC
+                     u2fh_nfc_devs *nfc_devs,
+#endif
 				     const char *challenge,
 				     const char *origin,
 				     char *response, size_t * response_len,
