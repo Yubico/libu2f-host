@@ -6,6 +6,7 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq -y gengetopt help2man $EXTRA
 env:
-  - EXTRA="libjson0-dev libudev-dev libusb-1.0-0-dev libnfc-dev"
+  - EXTRA="libjson0-dev libudev-dev libusb-1.0-0-dev" CONFIG_FLAGS="--disable-libnfc"
+  - EXTRA="libjson0-dev libudev-dev libusb-1.0-0-dev libnfc-dev" CONFIG_FLAGS=""
 script:
   - ./build-aux/travis

@@ -12,7 +12,7 @@ sudo ldconfig
 popd
 
 autoreconf -i
-./configure
+./configure $CONFIG_FLAGS
 make syntax-check
 
 if [ "x$ARCH" != "x" ]; then
