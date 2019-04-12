@@ -38,6 +38,10 @@ main (int argc, char *argv[])
   u2fh_devs *devs = NULL;
   u2fh_cmdflags flags = 0;
   u2fh_rc rc;
+  int u2fh_nfc = 0;
+#ifdef FEATURE_LIBNFC
+  u2fh_nfc_devs *nfc_devs;
+#endif
 
   if (cmdline_parser (argc, argv, &args_info) != 0)
     exit (EXIT_FAILURE);
@@ -69,7 +73,7 @@ main (int argc, char *argv[])
     {
       fprintf (stderr, "error: u2fh_devs_init (%d): %s\n", rc,
 	       u2fh_strerror (rc));
-      goto done;
+      goto nfc;
     }
 
   rc = u2fh_devs_discover (devs, NULL);
@@ -77,9 +81,32 @@ main (int argc, char *argv[])
     {
       fprintf (stderr, "error: u2fh_devs_discover (%d): %s\n", rc,
 	       u2fh_strerror (rc));
+      goto nfc;
+    }
+
+  goto process;
+
+nfc:
+#ifdef FEATURE_LIBNFC
+  u2fh_nfc = 1;
+  rc = u2fh_nfc_devs_init (&nfc_devs);
+  if (rc != U2FH_OK)
+    {
+      fprintf (stderr, "error: u2fh_nfc_devs_init (%d): %s\n", rc, u2fh_strerror (rc));
       goto done;
     }
 
+  rc = u2fh_nfc_devs_discover (nfc_devs);
+  if (rc != U2FH_OK)
+    {
+      fprintf (stderr, "error: u2fh_nfc_devs_discover (%d): %s\n", rc, u2fh_strerror (rc));
+      goto done;
+    }
+#else
+  goto done;
+#endif
+
+process:
   switch (args_info.action_arg)
     {
     case action_arg_register:
@@ -92,14 +119,22 @@ main (int argc, char *argv[])
 
       if (args_info.action_arg == action_arg_register)
 	{
-	  rc = u2fh_register2 (devs, challenge, args_info.origin_arg,
+	  rc = u2fh_register2 (u2fh_nfc ? NULL : devs,
+#ifdef FEATURE_LIBNFC
+                   u2fh_nfc ? nfc_devs : NULL,
+#endif
+                   challenge, args_info.origin_arg,
 			       response, &response_len,
 			       args_info.touch_flag ? 0 :
 			       U2FH_REQUEST_USER_PRESENCE);
 	}
       else
 	{
-	  rc = u2fh_authenticate2 (devs, challenge, args_info.origin_arg,
+	  rc = u2fh_authenticate2 (u2fh_nfc ? NULL : devs,
+#ifdef FEATURE_LIBNFC
+                   u2fh_nfc ? nfc_devs : NULL,
+#endif
+                   challenge, args_info.origin_arg,
 				   response, &response_len,
 				   args_info.touch_flag ? 0 :
 				   U2FH_REQUEST_USER_PRESENCE);
@@ -141,6 +176,10 @@ main (int argc, char *argv[])
 
 done:
   u2fh_devs_done (devs);
+#ifdef FEATURE_LIBNFC
+  if (u2fh_nfc)
+    u2fh_nfc_devs_done (nfc_devs);
+#endif
   u2fh_global_done ();
 
   exit (exit_code);
