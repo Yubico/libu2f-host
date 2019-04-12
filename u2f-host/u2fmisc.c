@@ -19,6 +19,9 @@
 #include "internal.h"
 
 #include <json.h>
+#ifdef FEATURE_LIBNFC
+#include <nfc/nfc.h>
+#endif
 
 #include "sha256.h"
 
@@ -323,6 +326,15 @@ u2fh_sendrecv (u2fh_devs * devs, unsigned index, uint8_t cmd,
   }
   return U2FH_OK;
 }
+
+#ifdef FEATURE_LIBNFC
+u2fh_rc
+send_apdu_nfc_compat (struct u2fnfcdevice *dev, int cmd, const unsigned char *data,
+                      size_t data_len, int p1, unsigned char *out, size_t *out_len)
+{
+  return send_apdu_nfc (dev->pnd, 0, cmd, p1, 0, data, data_len, out, out_len);
+}
+#endif
 
 u2fh_rc
 send_apdu (u2fh_devs * devs, int index, int cmd, const unsigned char *d,

@@ -90,6 +90,9 @@ struct u2fh_nfc_devs
   struct u2fnfcdevice *first;
 };
 
+u2fh_rc send_apdu_nfc_compat (struct u2fnfcdevice *dev, int cmd,
+                              const unsigned char *data, size_t data_len,
+                              int p1, unsigned char *out, size_t *out_len);
 u2fh_rc send_apdu_nfc (nfc_device *pnd, uint8_t cla, uint8_t ins, uint8_t p1,
                        uint8_t p2, const unsigned char *data, uint8_t data_len,
                        uint8_t *resp, size_t *resp_len);
