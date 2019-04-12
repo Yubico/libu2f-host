@@ -105,6 +105,9 @@ prepare_response (const unsigned char *buf, int len, const char *bd,
 
 static u2fh_rc
 _u2fh_register (u2fh_devs * devs,
+#ifdef FEATURE_LIBNFC
+                u2fh_nfc_devs *nfc_devs,
+#endif
 		const char *challenge,
 		const char *origin, char **response, size_t * response_len,
 		u2fh_cmdflags flags)
@@ -139,10 +142,15 @@ _u2fh_register (u2fh_devs * devs,
   do
     {
       struct u2fdevice *dev;
+#ifdef FEATURE_LIBNFC
+      struct u2fnfcdevice *nfc_dev;
+#endif
       if (iterations++ > 15)
 	{
 	  return U2FH_TIMEOUT_ERROR;
 	}
+      if (devs != NULL)
+    {
       for (dev = devs->first; dev != NULL; dev = dev->next)
 	{
 	  len = MAXDATASIZE;
@@ -158,6 +166,25 @@ _u2fh_register (u2fh_devs * devs,
 	      break;
 	    }
 	}
+    }
+#ifdef FEATURE_LIBNFC
+      if (nfc_devs != NULL)
+        {
+          len = MAXDATASIZE;
+          nfc_dev = get_nfc_device (nfc_devs);
+          rc = send_apdu_nfc_compat (nfc_dev, U2F_REGISTER, data, sizeof (data),
+                                     flags & U2FH_REQUEST_USER_PRESENCE ? 3 : 0,
+                                     buf, &len);
+          if (rc != U2FH_OK)
+            {
+              return rc;
+            }
+          else if (len != 2)
+            {
+              break;
+            }
+        }
+#endif
       if (len != 2)
 	{
 	  break;
@@ -191,12 +218,18 @@ _u2fh_register (u2fh_devs * devs,
  */
 u2fh_rc
 u2fh_register2 (u2fh_devs * devs,
+#ifdef FEATURE_LIBNFC
+                u2fh_nfc_devs *nfc_devs,
+#endif
 		const char *challenge,
 		const char *origin, char *response, size_t * response_len,
 		u2fh_cmdflags flags)
 {
-  return _u2fh_register (devs, challenge, origin, &response, response_len,
-			 flags);
+  return _u2fh_register (devs,
+#ifdef FEATURE_LIBNFC
+          nfc_devs,
+#endif
+          challenge, origin, &response, response_len, flags);
 }
 
 /**
@@ -214,11 +247,17 @@ u2fh_register2 (u2fh_devs * devs,
  */
 u2fh_rc
 u2fh_register (u2fh_devs * devs,
+#ifdef FEATURE_LIBNFC
+               u2fh_nfc_devs *nfc_devs,
+#endif
 	       const char *challenge,
 	       const char *origin, char **response, u2fh_cmdflags flags)
 {
   size_t response_len = 0;
   *response = NULL;
-  return _u2fh_register (devs, challenge, origin, response, &response_len,
-			 flags);
+  return _u2fh_register (devs,
+#ifdef FEATURE_LIBNFC
+          nfc_devs,
+#endif
+          challenge, origin, response, &response_len, flags);
 }
