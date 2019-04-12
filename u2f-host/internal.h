@@ -22,6 +22,10 @@
 #include <hidapi.h>
 #include <stdio.h>
 
+#ifdef FEATURE_LIBNFC
+#include <nfc/nfc.h>
+#endif
+
 #include "inc/u2f.h"
 #include "inc/u2f_hid.h"
 
@@ -53,6 +57,44 @@ struct u2fh_devs
   unsigned max_id;
   struct u2fdevice *first;
 };
+
+#ifdef FEATURE_LIBNFC
+
+#define NFC_MAX_NUM_CONTROLLERS 4
+#define NFC_MAX_RESPONSE_LEN 2048
+#define NFC_TAG_NAME 0x71
+#define NFC_TAG_VERSION 0x79
+#define NFC_U2F_AID                                \
+  {                                                \
+    0xA0, 0x00, 0x00, 0x06, 0x47, 0x2F, 0x00, 0x01 \
+  }
+#define NFC_OATH_AID                               \
+  {                                                \
+    0xA0, 0x00, 0x00, 0x05, 0x27, 0x21, 0x01, 0x01 \
+  }
+
+struct u2fnfcdevice
+{
+  struct u2fnfcdevice *next;
+  nfc_device *pnd;
+  int skipped;
+  uint8_t versionMajor;
+  uint8_t versionMinor;
+  uint8_t versionBuild;
+};
+
+struct u2fh_nfc_devs
+{
+  unsigned max_id;
+  nfc_context *context;
+  struct u2fnfcdevice *first;
+};
+
+u2fh_rc send_apdu_nfc (nfc_device *pnd, uint8_t cla, uint8_t ins, uint8_t p1,
+                       uint8_t p2, const unsigned char *data, uint8_t data_len,
+                       uint8_t *resp, size_t *resp_len);
+
+#endif
 
 extern int debug;
 

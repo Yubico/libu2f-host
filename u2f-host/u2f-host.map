@@ -23,6 +23,11 @@ U2F_HOST_0.0
     u2fh_get_device_description;
     u2fh_global_done;
     u2fh_global_init;
+#ifdef FEATURS_LIBNFC
+    u2fh_nfc_devs_init;
+    u2fh_nfc_devs_discover;
+    u2fh_nfc_devs_done;
+#endif
     u2fh_is_alive;
     u2fh_register;
     u2fh_sendrecv;

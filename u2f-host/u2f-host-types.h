@@ -67,5 +67,8 @@ typedef enum
 } u2fh_cmdflags;
 
 typedef struct u2fh_devs u2fh_devs;
+#ifdef FEATURE_LIBNFC
+typedef struct u2fh_nfc_devs u2fh_nfc_devs;
+#endif
 
 #endif

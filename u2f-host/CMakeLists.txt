@@ -28,7 +28,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 # ==========
 # Source files
 # ==========
-set(SOURCE authenticate.c  cdecode.c  cencode.c  devs.c  error.c  global.c  register.c  u2fmisc.c  version.c)
+set(SOURCE authenticate.c  cdecode.c  cencode.c  devs.c  nfc_devs.c  error.c  global.c  register.c  u2fmisc.c  version.c)
 source_group(sources FILES ${SOURCE})
 include_directories(.)
 set(HEADERS u2f-host.h  u2f-host-types.h  internal.h)

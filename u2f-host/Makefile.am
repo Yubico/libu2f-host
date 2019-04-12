@@ -26,10 +26,10 @@ libu2f_host_la_SOURCES = u2f-host.h u2f-host-types.h u2f-host-version.h
 libu2f_host_la_SOURCES += internal.h
 libu2f_host_la_SOURCES += u2f-host.pc.in u2f-host.map
 libu2f_host_la_SOURCES += global.c version.c error.c
-libu2f_host_la_SOURCES += devs.c register.c authenticate.c u2fmisc.c
+libu2f_host_la_SOURCES += devs.c nfc_devs.c register.c authenticate.c u2fmisc.c
 libu2f_host_la_SOURCES += inc/u2f.h inc/u2f_hid.h
 
-libu2f_host_la_LIBADD = $(HIDAPI_LIBS) $(LIBJSON_LIBS)
+libu2f_host_la_LIBADD = $(HIDAPI_LIBS) $(LIBJSON_LIBS) $(LIBNFC_LIBS)
 libu2f_host_la_LIBADD += libu2f_b64.la
 libu2f_host_la_LIBADD += ../gl/libgnu.la
 
