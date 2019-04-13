@@ -10,8 +10,8 @@
   if (debug)          \
   fprintf (stderr, (f_), ##__VA_ARGS__)
 
-int
-card_transmit (nfc_device *pnd, uint8_t *capdu, size_t capdu_len,
+u2fh_rc
+card_transmit (nfc_device *pnd, const uint8_t *capdu, const size_t capdu_len,
                uint8_t *rapdu, size_t *rapdu_len)
 {
   int res;
@@ -35,7 +35,7 @@ card_transmit (nfc_device *pnd, uint8_t *capdu, size_t capdu_len,
     }
   if (res < 0)
     {
-      return -1;
+      return U2FH_TRANSPORT_ERROR;
     }
   *rapdu_len = total_res + 2;
 
@@ -44,7 +44,7 @@ card_transmit (nfc_device *pnd, uint8_t *capdu, size_t capdu_len,
     dlog ("%02x ", rapdu[pos]);
   dlog ("\n");
 
-  return 0;
+  return U2FH_OK;
 }
 
 u2fh_rc
@@ -61,8 +61,8 @@ send_apdu_nfc (nfc_device *pnd, uint8_t cla, uint8_t ins, uint8_t p1, uint8_t p2
   memcpy (&msg[5], data, data_len);
   ret = card_transmit (pnd, msg, 4 + 1 + data_len, resp, resp_len);
   free (msg);
-  if (ret != 0)
-    return U2FH_TRANSPORT_ERROR;
+  if (ret != U2FH_OK)
+    return ret;
   if (*resp_len < 2 || resp[*resp_len - 2] != 0x90 || resp[*resp_len - 1] != 0x00)
     {
       return U2FH_AUTHENTICATOR_ERROR;

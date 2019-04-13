@@ -145,15 +145,24 @@ process:
 	uint8_t command;
 	unsigned char out[2048];
 	size_t outlen = sizeof (out);
-	if (args_info.command_arg == NULL)
-	  {
-	    fprintf (stderr, "error: empty sendrecv command.\n");
-	    exit (EXIT_FAILURE);
-	  }
-	sscanf (args_info.command_arg, "%hhx", &command);
-	rc =
-	  u2fh_sendrecv (devs, 0, command, challenge, chal_len - 1, out,
-			 &outlen);
+#ifdef FEATURE_LIBNFC
+    if (!u2fh_nfc)
+      {
+#endif
+        if (args_info.command_arg == NULL)
+          {
+            fprintf (stderr, "error: empty sendrecv command.\n");
+            exit (EXIT_FAILURE);
+          }
+        sscanf (args_info.command_arg, "%hhx", &command);
+        rc = u2fh_sendrecv (devs, 0, command, challenge, chal_len - 1, out, &outlen);
+#ifdef FEATURE_LIBNFC
+      }
+    else
+      {
+        rc = u2fh_nfc_sendrecv (nfc_devs, challenge, chal_len - 1, out, &outlen);
+      }
+#endif
       }
       break;
     case action__NULL:

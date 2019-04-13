@@ -60,6 +60,9 @@ extern "C"
   U2FH_EXPORT u2fh_rc u2fh_nfc_devs_discover (u2fh_nfc_devs *devices);
   U2FH_EXPORT struct u2fnfcdevice *get_nfc_device (u2fh_nfc_devs *devices);
   U2FH_EXPORT void u2fh_nfc_devs_done (u2fh_nfc_devs *devices);
+  U2FH_EXPORT u2fh_rc u2fh_nfc_sendrecv (u2fh_nfc_devs *nfc_devs,
+                                         const unsigned char *send, uint16_t send_len,
+                                         unsigned char *recv, size_t *recv_len);
 #endif
 
    U2FH_EXPORT u2fh_rc

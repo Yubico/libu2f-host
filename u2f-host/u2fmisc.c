@@ -334,6 +334,19 @@ send_apdu_nfc_compat (struct u2fnfcdevice *dev, int cmd, const unsigned char *da
 {
   return send_apdu_nfc (dev->pnd, 0, cmd, p1, 0, data, data_len, out, out_len);
 }
+
+u2fh_rc
+u2fh_nfc_sendrecv (u2fh_nfc_devs *nfc_devs, const unsigned char *send,
+                   uint16_t send_len, unsigned char *recv, size_t *recv_len)
+{
+  struct u2fnfcdevice *nfc_dev;
+  int ret;
+
+  nfc_dev = get_nfc_device (nfc_devs);
+  if (!nfc_dev)
+    return U2FH_NO_U2F_DEVICE;
+  return card_transmit (nfc_dev->pnd, send, send_len, recv, recv_len);
+}
 #endif
 
 u2fh_rc
