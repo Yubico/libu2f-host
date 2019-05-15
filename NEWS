@@ -1,6 +1,10 @@
 libu2f-host NEWS -- History of user visible changes.
 
-* Version 1.1.10 (unreleased)
+* Version 1.1.10 (released 2019-05-15)
+
+** Add new devices to udev rules.
+
+** Fix a potentially uninitialized buffer.
 
 * Version 1.1.9 (released 2019-03-06)
 
