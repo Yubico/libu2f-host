@@ -177,6 +177,16 @@ Both of these require that a release tarball of the project exists in the
 current directory. The value of the VERSION variable must match the version
 on that tarball.
 
+Building from Git works on FreeBSD (excluding documentation), using gmake.
+Dependencies may be installed via:
+
+  # pkg install gengetopt help2man hidapi json-c u2f-devd
+
+And then configure and build using:
+
+  $ ./configure --disable-gtk-doc
+  $ gmake
+
 Namespaces
 ----------
 
