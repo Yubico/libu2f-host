@@ -10,6 +10,10 @@ device and perform the U2F Register and U2F Authenticate operations.
 For the server-side aspect, see our
 https://developers.yubico.com/libu2f-server/[libu2f-server project].
 
+NOTE: This project is in maintenance mode,
+https://developers.yubico.com/libfido2/[libfido2] is a new project with
+support for U2F and FIDO2.
+
 License
 -------
 
