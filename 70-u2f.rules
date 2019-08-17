@@ -25,10 +25,10 @@ KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="2581", ATTRS{idProduct
 # Neowave Keydo and Keydo AES
 KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1e0d", ATTRS{idProduct}=="f1d0|f1ae", TAG+="uaccess", GROUP="plugdev", MODE="0660"
 
-# HyperSecu HyperFIDO, KeyID U2F
+# HyperSecu HyperFIDO
 KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="096e|2ccf", ATTRS{idProduct}=="0880", TAG+="uaccess", GROUP="plugdev", MODE="0660"
 
-# Feitian ePass FIDO, BioPass FIDO2, KeyID U2F
+# Feitian ePass FIDO, BioPass FIDO2
 KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="096e", ATTRS{idProduct}=="0850|0852|0853|0854|0856|0858|085a|085b|085d", TAG+="uaccess", GROUP="plugdev", MODE="0660"
 
 # JaCarta U2F
@@ -74,7 +74,7 @@ KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="06cb", ATTRS{idProduct
 # Longmai mFIDO
 KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="4c4d", ATTRS{idProduct}=="f703", TAG+="uaccess", GROUP="plugdev", MODE="0660"
 
-# eWBM FIDO2 - Goldengate 450, Goldengate 500 + biometric
-KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="311f", ATTRS{idProduct}=="f47c|5c2f", TAG+="uaccess", GROUP="plugdev", MODE="0660"
+# eWBM FIDO2 - Goldengate 310, 320, 500, 450
+KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="311f", ATTRS{idProduct}=="4a1a|4c2a|5c2f|f47c", TAG+="uaccess", GROUP="plugdev", MODE="0660"
 
 LABEL="u2f_end"
