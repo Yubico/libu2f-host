@@ -303,7 +303,7 @@ init_device (u2fh_devs * devs, struct u2fdevice *dev)
        &resplen) == U2FH_OK)
     {
       int offs = sizeof (nonce);
-      /* the response has to be atleast 17 bytes, if it's more we discard that */
+      /* the response has to be at least 17 bytes, if it's less we discard it */
       if (resplen < 17)
 	{
 	  return U2FH_SIZE_ERROR;
