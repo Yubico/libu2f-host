@@ -100,23 +100,13 @@ notify 100 {
 	action "chgrp u2f /dev/$cdev; chmod g+rw /dev/$cdev";
 };
 
-# Nitrokey FIDO U2F, Nitrokey FIDO2
+# Nitrokey FIDO U2F, Nitrokey FIDO2, Safetech SafeKey
 notify 100 {
 	match "system"		"USB";
 	match "subsystem"	"DEVICE";
 	match "type"		"ATTACH";
 	match "vendor"		"0x20a0";
-	match "product"		"(0x4287|0x42b1)";
-	action "chgrp u2f /dev/$cdev; chmod g+rw /dev/$cdev";
-};
-
-# Safetech SafeKey
-notify 100 {
-	match "system"		"USB";
-	match "subsystem"	"DEVICE";
-	match "type"		"ATTACH";
-	match "vendor"		"0x20a0";
-	match "product"		"0x42b3";
+	match "product"		"(0x4287|0x42b1|0x42b3)";
 	action "chgrp u2f /dev/$cdev; chmod g+rw /dev/$cdev";
 };
 
