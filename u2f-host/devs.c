@@ -435,6 +435,11 @@ u2fh_devs_discover (u2fh_devs * devs, unsigned *max_index)
       if (usage_page == FIDO_USAGE_PAGE && usage == FIDO_USAGE_U2FHID)
 	{
 	  dev = new_device (devs);
+	  if (dev == NULL)
+	    {
+	      res = U2FH_MEMORY_ERROR;
+	      goto out;
+	    }
 	  dev->devh = hid_open_path (cur_dev->path);
 	  if (dev->devh != NULL)
 	    {
