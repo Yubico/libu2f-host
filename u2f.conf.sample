@@ -139,3 +139,13 @@ notify 100 {
 	match "product"		"(0x5070|0x50b0)";
 	action "chgrp u2f /dev/$cdev; chmod g+rw /dev/$cdev";
 };
+
+# GoTrust Idem Key
+notify 100 {
+	match "system"		"USB";
+	match "subsystem"	"DEVICE";
+	match "type"		"ATTACH";
+	match "vendor"		"0x1fc9";
+	match "product"		"0xf143";
+	action "chgrp u2f /dev/$cdev; chmod g+rw /dev/$cdev";
+};
