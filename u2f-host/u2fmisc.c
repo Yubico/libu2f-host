@@ -33,6 +33,19 @@ typedef int json_bool;
 #define u2fh_json_object_object_get(obj, key, value) (value = json_object_object_get(obj, key)) == NULL ? (json_bool)FALSE : (json_bool)TRUE
 #endif
 
+/* json-c 0.13.99 does not define TRUE/FALSE anymore
+ * the json-c maintainers replaced them with pure 1/0
+ * https://github.com/json-c/json-c/commit/0992aac61f8b
+ */
+#if defined JSON_C_VERSION_NUM && JSON_C_VERSION_NUM >= ((13 << 8) | 99)
+#ifndef FALSE
+#define FALSE 0
+#endif
+#ifndef TRUE
+#define TRUE  1
+#endif
+#endif
+
 static void
 dumpHex (unsigned char *data, int offs, int len)
 {
