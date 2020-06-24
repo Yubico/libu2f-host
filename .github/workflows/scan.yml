@@ -1,4 +1,5 @@
 name: static code analysis
+# Documentation: https://github.com/Yubico/yes-static-code-analysis
 
 on:
   push:
@@ -8,6 +9,7 @@ on:
 env:
   SCAN_IMG:
     yes-docker-local.artifactory.in.yubico.org/static-code-analysis/c:v1
+  SECRET: ${{ secrets.ARTIFACTORY_READER_TOKEN }}
 
 jobs:
   build:
@@ -16,17 +18,18 @@ jobs:
     steps:
     - uses: actions/checkout@master
 
-    - name: Prep scan
+    - name: Scan and fail on warnings
       run: |
-        docker login yes-docker-local.artifactory.in.yubico.org/ \
-             -u svc-static-code-analysis-reader \
-             -p ${{ secrets.ARTIFACTORY_READER_TOKEN }}
-        docker pull ${SCAN_IMG}
-
-    - name: Scan but do not fail on warnings
-      run: |
-        docker run -v${PWD}:/k -e COMPILE_DEPS="${COMPILE_DEPS}" \
-          -e PROJECT_NAME=${GITHUB_REPOSITORY#Yubico/} -t ${SCAN_IMG} || true
+        if [ "${SECRET}" != "" ]; then
+          docker login yes-docker-local.artifactory.in.yubico.org/ \
+            -u svc-static-code-analysis-reader -p ${SECRET}
+          docker pull ${SCAN_IMG}
+          docker run -v${PWD}:/k -e COMPILE_DEPS="${COMPILE_DEPS}" \
+            -e PROJECT_NAME=${GITHUB_REPOSITORY#Yubico/} \
+            -e PVS_IGNORE_WARNINGS=${PVS_IGNORE_WARNINGS} -t ${SCAN_IMG}
+        else
+          echo "No docker registry credentials, not scanning"
+        fi
 
     - uses: actions/upload-artifact@master
       if: failure()
